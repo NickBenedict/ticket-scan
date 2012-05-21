@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.itwizard.mezzofanti"
+    android:versionCode="4"
+    android:versionName="1.0.3" >
+
+    <uses-sdk android:minSdkVersion="3" />
+
+    <application
+        android:icon="@drawable/wizard_48"
+        android:label="@string/mezzofanti_appName" >
+        <activity
+            android:configChanges="orientation|keyboardHidden"
+            android:name="com.stubhub.ticketscan.ScanTicketActivity"
+            android:screenOrientation="sensor" >
+            <intent-filter >
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:configChanges="keyboardHidden|orientation"
+            android:name="com.stubhub.bump.RedLaserSDK"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        
+        <activity
+            android:configChanges="orientation|keyboardHidden"
+            android:name=".Mezzofanti"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+        <activity
+            android:label="@string/preferences_name"
+            android:name="PreferencesActivity" >
+        </activity>
+        <activity
+            android:label="@string/installactivity_name"
+            android:name=".InstallActivity" >
+        </activity>
+    </application>
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+</manifest>
