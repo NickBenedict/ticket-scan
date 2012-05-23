@@ -32,6 +32,8 @@ import android.app.ProgressDialog;
 import android.os.Handler;
 import android.util.Log;
 
+import com.stubhub.ticketscan.R;
+
 /**
  * This object wraps the download functionality. The OCR engine needs different language-files that are large in
  * size and will not be kept in the package. Any additional language that will be installed by the client will be

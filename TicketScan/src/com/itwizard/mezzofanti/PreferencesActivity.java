@@ -17,14 +17,11 @@
 
 package com.itwizard.mezzofanti;
 
-import com.itwizard.mezzofanti.LanguageDialog.LDActivity;
-import com.itwizard.mezzofanti.Languages.Language;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -34,12 +31,16 @@ import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceScreen;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.preference.PreferenceScreen;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.WindowManager;
+
+import com.itwizard.mezzofanti.LanguageDialog.LDActivity;
+import com.itwizard.mezzofanti.Languages.Language;
+import com.stubhub.ticketscan.R;
 
 /**
  * This activity implements the Settings/Menu button.

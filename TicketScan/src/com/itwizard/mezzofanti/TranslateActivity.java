@@ -18,9 +18,6 @@
 package com.itwizard.mezzofanti;
 
 
-import com.itwizard.mezzofanti.LanguageDialog.LDActivity;
-import com.itwizard.mezzofanti.Languages.Language;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -34,6 +31,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -42,9 +42,10 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
+
+import com.itwizard.mezzofanti.LanguageDialog.LDActivity;
+import com.itwizard.mezzofanti.Languages.Language;
+import com.stubhub.ticketscan.R;
 
 /**
  * Wrapper for the Google code, to translate from one language to another.

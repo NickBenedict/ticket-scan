@@ -34,6 +34,8 @@ import android.os.StatFs;
 import android.util.Log;
 import android.widget.ProgressBar;
 
+import com.stubhub.ticketscan.R;
+
 
 /**
  *  	This object is responsible for installing all language assets from the package.

@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.ebay.redlasersdk.BarcodeResult;
 import com.itwizard.mezzofanti.Mezzofanti;
-import com.itwizard.mezzofanti.R;
 
 public class ScanTicketActivity extends Activity {
 

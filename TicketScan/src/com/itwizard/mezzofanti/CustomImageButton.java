@@ -27,6 +27,8 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.stubhub.ticketscan.R;
+
 /**
  * Class for Buttons that hold images.
  *

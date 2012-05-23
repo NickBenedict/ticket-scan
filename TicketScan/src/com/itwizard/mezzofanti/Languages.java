@@ -16,11 +16,13 @@
 
 package com.itwizard.mezzofanti;
 
+import java.util.Map;
+
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.widget.Button;
 
-import java.util.Map;
+import com.stubhub.ticketscan.R;
 
 
 /**

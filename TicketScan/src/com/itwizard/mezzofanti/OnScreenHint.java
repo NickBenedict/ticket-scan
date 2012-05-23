@@ -27,6 +27,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.stubhub.ticketscan.R;
+
 /**
  * A on-screen hint is a view containing a little message for the user and will
  * be shown on the screen continuously.  This class helps you create and show
