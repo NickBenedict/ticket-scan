@@ -73,16 +73,16 @@ public class ScanTicketActivity extends Activity {
 
 	// TODO let user customize?
 	private boolean doUpce = true;
-	private boolean doEan8 = false;
-	private boolean doEan13 = false;
-	private boolean doSticky = false;
-	private boolean doQRCode = false;
-	private boolean doCode128 = false;
-	private boolean doCode39 = false;
-	private boolean doCode93 = false;
-	private boolean doDataMatrix = false;
-	private boolean doRSS14 = false;
-	private boolean doITF = false;
+	private boolean doEan8 = true;
+	private boolean doEan13 = true;
+	private boolean doSticky = true;
+	private boolean doQRCode = true;
+	private boolean doCode128 = true;
+	private boolean doCode39 = true;
+	private boolean doCode93 = true;
+	private boolean doDataMatrix = true;
+	private boolean doRSS14 = true;
+	private boolean doITF = true;
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
