@@ -10,46 +10,43 @@ import java.util.Calendar;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.DialogInterface.OnCancelListener;
-import android.content.pm.ActivityInfo; 
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.hardware.SensorManager;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Rect;
-import android.hardware.SensorManager;
-import android.view.MotionEvent;
-import android.view.SurfaceHolder;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.OrientationEventListener;
-import android.view.Window; 
-import android.view.WindowManager; 
-import android.util.Log;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
-import android.view.KeyEvent;
-import android.view.SurfaceView; 
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
-import android.app.ProgressDialog;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
-import android.os.Vibrator;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.stubhub.ticketscan.R;
 
 public class Mezzofanti extends Activity implements SurfaceHolder.Callback, View.OnClickListener, Runnable 
 {
@@ -156,7 +153,6 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback, View
 				
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					Log.v(TAG, "CameraButton OnClick");
 					m_bScreenRequestPicture  = true;
 					RequestCameraFocus();
@@ -898,6 +894,10 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback, View
 		}
 		
 		//XXX return scan result
+//		if (m_sOCRResultLineMode == null || m_sOCRResultLineMode.length() == 0){
+//			return;
+//		}
+		
 		Intent data = new Intent();
 		Bundle bundle = new Bundle();
 		bundle.putString("content", m_sOCRResultLineMode);

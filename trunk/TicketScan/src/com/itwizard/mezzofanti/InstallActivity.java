@@ -34,6 +34,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.stubhub.ticketscan.R;
+
 /**
  * 
  * wrapper activity for the AssetsManager 

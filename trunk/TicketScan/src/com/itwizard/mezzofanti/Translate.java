@@ -16,8 +16,6 @@
 
 package com.itwizard.mezzofanti;
 
-import android.util.Log;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +26,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 import org.json.JSONObject;
+
+import android.util.Log;
 
 /**
  * Makes the Google Translate API available to Java applications.

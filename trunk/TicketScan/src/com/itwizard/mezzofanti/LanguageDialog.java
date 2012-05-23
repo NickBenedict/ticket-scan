@@ -17,7 +17,6 @@
 package com.itwizard.mezzofanti;
 
 import static android.view.ViewGroup.LayoutParams.FILL_PARENT;
-import com.itwizard.mezzofanti.Languages.Language;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -29,6 +28,9 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+
+import com.itwizard.mezzofanti.Languages.Language;
+import com.stubhub.ticketscan.R;
 
 /**
  * This dialog displays a list of languages and then tells the calling activity which language

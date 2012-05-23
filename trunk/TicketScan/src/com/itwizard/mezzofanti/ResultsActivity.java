@@ -25,18 +25,20 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
+
+import com.stubhub.ticketscan.R;
 
 public class ResultsActivity  extends Activity
 {

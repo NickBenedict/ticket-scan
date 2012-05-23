@@ -22,18 +22,19 @@
 
 package com.itwizard.mezzofanti;
 import java.io.IOException;
+
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.hardware.Camera;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.Display;
 import android.view.SurfaceHolder;
 import android.view.WindowManager;
+
+import com.stubhub.ticketscan.R;
 
 /**
  * This object wraps the Camera service object and expects to be the only one talking to it. The

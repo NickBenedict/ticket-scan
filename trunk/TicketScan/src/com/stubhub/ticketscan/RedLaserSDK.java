@@ -10,7 +10,6 @@ import android.view.WindowManager;
 import com.ebay.redlasersdk.BarcodeResult;
 import com.ebay.redlasersdk.scanner.BarcodeScanActivity;
 import com.ebay.redlasersdk.scanner.RedLaserSettings;
-import com.itwizard.mezzofanti.R;
 
 public class RedLaserSDK extends BarcodeScanActivity {
 	static String DO_UPCE 		= "do_upce";
