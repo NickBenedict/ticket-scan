@@ -14,7 +14,8 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="Scan ticket"
+            android:text="Scan Ticket"
+            android:textColor="#CC0000"
             android:textSize="32dp" />
 
         <!-- barcode -->
@@ -23,15 +24,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
-
+			
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:text="barcode"
+                android:text="Barcode"
+                android:textColor="#0f0"
                 android:textSize="22dp" />
-
             <Button
                 android:id="@+id/button_scan_barcode"
                 android:layout_width="100dp"
@@ -39,14 +40,17 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:text="Scan"
-                android:textSize="20dp" />
+                android:textColor="#0f0"
+                android:textSize="20dp" 
+                android:layout_marginRight="3dp"/>
+          
         </RelativeLayout>
 
         <EditText
             android:id="@+id/text_barcode"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp" >
             <requestFocus />
         </EditText>
 
@@ -56,34 +60,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:text="field1"
-                android:textSize="22dp" />
-
+                 
             <Button
-                android:id="@+id/button_scan_field1"
+                android:id="@+id/button_scan_Event_name"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:text="Scan"
+                android:textColor="#0ff"
+                android:layout_marginRight="3dp"
+               
                 android:textSize="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+               
+        
+                android:layout_alignParentLeft="true"
+                android:text="Event name"
+                android:textColor="#0ff"
+                android:textSize="22dp" />
+
         </RelativeLayout>
 
         <EditText
-            android:id="@+id/text_field1"
+            android:id="@+id/text_Event_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
+            android:layout_height="wrap_content" 
+            android:layout_margin="3dp">
             <requestFocus />
         </EditText>
-
-        <!-- field2 -->
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -95,26 +103,174 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:text="field2"
+                android:textColor="#AA66CC"
+                android:text="Section"
                 android:textSize="22dp" />
 
             <Button
-                android:id="@+id/button_scan_field2"
+                android:id="@+id/button_scan_Section"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textColor="#AA66CC"
+                android:text="Scan"
+                android:textSize="20dp"
+                android:layout_marginleft="3dp" />
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/text_scan_Section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+           android:layout_margin="3dp">
+            <requestFocus />
+        </EditText>
+              <!-- Row -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+			
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:textColor="#FF4444"
+                android:text="Row"
+                android:textSize="22dp" />
+            <Button
+                android:id="@+id/button_scan_Row"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:text="Scan"
-                android:textSize="20dp" />
+                android:textColor="#FF4444"
+                android:textSize="20dp" 
+                android:layout_marginRight="3dp"/>
+          
         </RelativeLayout>
 
         <EditText
-            android:id="@+id/text_field2"
+            android:id="@+id/text_Row"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content" 
+             android:layout_margin="3dp">
+            <requestFocus />
+        </EditText>
+      
+              <!-- Seat -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+			
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="Seat"
+                android:textColor="#FF8800"
+                android:textSize="22dp" />
+            <Button
+                android:id="@+id/button_scan_Seat"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="Scan"
+                android:textColor="#FF8800"
+                android:textSize="20dp"
+                android:layout_marginRight="3dp" />
+          
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/text_scan_Seat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp" >
+            <requestFocus />
+        </EditText>
+            
+      
+              <!-- Ticket price/Face Value -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+			
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:textColor="#669900"
+                android:text="Ticket price Value"
+                android:textSize="22dp" />
+            <Button
+                android:id="@+id/button_scan_Ticket_Price"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                 android:textColor="#669900"
+                android:text="Scan"
+                android:textSize="20dp" 
+                android:layout_marginRight="3dp"/>
+             
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/text_Ticket_price_Value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+              android:layout_margin="3dp" >
 
             <requestFocus />
         </EditText>
+        
+             <!-- Trait/Discosure -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+			
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="Trait/Discosure"
+              
+                android:textSize="22dp" />
+            <Button
+                android:id="@+id/button_scan_Trait"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="Scan"
+                android:textSize="20dp" 
+                android:layout_marginRight="3dp"/>
+          
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/text_Trait_Discosure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+          android:layout_margin="3dp" >
+            <requestFocus />
+        </EditText>
+            
     </LinearLayout>
 
 </ScrollView>

@@ -47,11 +47,11 @@
         </activity>
         <activity
             android:label="@string/preferences_name"
-            android:name="PreferencesActivity" >
+            android:name="com.itwizard.mezzofanti.PreferencesActivity" >
         </activity>
         <activity
             android:label="@string/installactivity_name"
-            android:name=".InstallActivity" >
+            android:name="com.itwizard.mezzofanti.InstallActivity" >
         </activity>
     </application>
 
