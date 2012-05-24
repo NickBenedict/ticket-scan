@@ -11,7 +11,8 @@ import android.widget.TextView;
 
 import com.ebay.redlasersdk.BarcodeResult;
 import com.itwizard.mezzofanti.Mezzofanti;
-
+//import com.itwizard.mezzofanti.R;
+import com.stubhub.ticketscan.R;
 public class ScanTicketActivity extends Activity {
 
 	@Override
@@ -51,7 +52,7 @@ public class ScanTicketActivity extends Activity {
 		});
 		}
 		{
-			Button button = (Button) findViewById(R.id.button_scan_field1);
+			Button button = (Button) findViewById(R.id.button_scan_Event_name);
 			button.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -59,8 +60,98 @@ public class ScanTicketActivity extends Activity {
 					try {
 						Intent scanIntent = new Intent(ScanTicketActivity.this,
 								Mezzofanti.class);
-						// just use the id of the text view as request id
-						startActivityForResult(scanIntent, R.id.text_field1);
+						 //just use the id of the text view as request id
+						startActivityForResult(scanIntent, R.id.text_Event_name);
+					} catch (Exception e) {
+						Log.d("RLSample",
+								e.getLocalizedMessage() + " " + e.getCause());
+					}
+				}
+			});
+		}
+		{
+			Button button = (Button) findViewById(R.id.button_scan_Section);
+			button.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					try {
+						Intent scanIntent = new Intent(ScanTicketActivity.this,
+								Mezzofanti.class);
+						 //just use the id of the text view as request id
+						startActivityForResult(scanIntent, R.id.text_scan_Section);
+					} catch (Exception e) {
+						Log.d("RLSample",
+								e.getLocalizedMessage() + " " + e.getCause());
+					}
+				}
+			});
+		}
+		{
+			Button button = (Button) findViewById(R.id.button_scan_Row);
+			button.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					try {
+						Intent scanIntent = new Intent(ScanTicketActivity.this,
+								Mezzofanti.class);
+						 //just use the id of the text view as request id
+						startActivityForResult(scanIntent, R.id.text_Row);
+					} catch (Exception e) {
+						Log.d("RLSample",
+								e.getLocalizedMessage() + " " + e.getCause());
+					}
+				}
+			});
+		}
+		{
+			Button button = (Button) findViewById(R.id.button_scan_Seat);
+			button.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					try {
+						Intent scanIntent = new Intent(ScanTicketActivity.this,
+								Mezzofanti.class);
+						 //just use the id of the text view as request id
+						startActivityForResult(scanIntent, R.id.text_scan_Seat);
+					} catch (Exception e) {
+						Log.d("RLSample",
+								e.getLocalizedMessage() + " " + e.getCause());
+					}
+				}
+			});
+		}
+		{
+			Button button = (Button) findViewById(R.id.button_scan_Ticket_Price);
+			button.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					try {
+						Intent scanIntent = new Intent(ScanTicketActivity.this,
+								Mezzofanti.class);
+						 //just use the id of the text view as request id
+						startActivityForResult(scanIntent, R.id.text_Ticket_price_Value);
+					} catch (Exception e) {
+						Log.d("RLSample",
+								e.getLocalizedMessage() + " " + e.getCause());
+					}
+				}
+			});
+		}
+		{
+			Button button = (Button) findViewById(R.id.button_scan_Trait);
+			button.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					try {
+						Intent scanIntent = new Intent(ScanTicketActivity.this,
+								Mezzofanti.class);
+						 //just use the id of the text view as request id
+						startActivityForResult(scanIntent, R.id.text_Trait_Discosure);
 					} catch (Exception e) {
 						Log.d("RLSample",
 								e.getLocalizedMessage() + " " + e.getCause());
@@ -101,9 +192,10 @@ public class ScanTicketActivity extends Activity {
 				textView.setText(barcode);
 
 			} else {
-				
+				Bundle show=data.getExtras();
 				TextView textView = (TextView) findViewById(requestCode);
-				textView.setText(data.getExtras().getString("content"));
+				//TextView textView = (TextView) findViewById(R.id.button_scan_field1);
+				textView.setText(show.getString("content"));
 				
 			}
 

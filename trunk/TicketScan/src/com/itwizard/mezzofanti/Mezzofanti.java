@@ -901,10 +901,38 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback, View
 		Intent data = new Intent();
 		Bundle bundle = new Bundle();
 		bundle.putString("content", m_sOCRResultLineMode);
+		bundle.putBoolean("bLineMode", m_bLineMode);
 		data.putExtras(bundle);
 		setResult(Activity.RESULT_OK, data);
 		finish();
 	}
+
+	/**
+	 * Start the InstallActivity if possible and needed.
+	 */
+	/*private void StartInstallActivity()
+	{
+		if (m_bSdcardMounted && 
+				( AssetsManager.IsInstalled()==false || 
+						(m_bSkipIntroAtStartup==false && !m_bIntroWasDisplayedAtStartup)
+				) 
+		) 
+		{
+			// install the languages if needed, create directory structure (one time)
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			InstallActivity.SetParentMessageHandler(m_MezzofantiMessageHandler);
+			intent.setClassName(this, InstallActivity.class.getName());
+			startActivity(intent);
+			m_bIntroWasDisplayedAtStartup = true; // only "true" at startup
+		}		
+	}*/
+
+
+	/*
+	 * ----------------------------------------------------------------------------------------
+	 * SDCard functions
+	 * ----------------------------------------------------------------------------------------
+	 */	
 
 	/**
 	 * Start the InstallActivity if possible and needed.
@@ -927,11 +955,6 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback, View
 	}
 
 
-	/*
-	 * ----------------------------------------------------------------------------------------
-	 * SDCard functions
-	 * ----------------------------------------------------------------------------------------
-	 */	
 
 	/**
 	 * Displays the sdcard-state message.
