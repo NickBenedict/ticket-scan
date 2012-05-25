@@ -1,7 +1,15 @@
 package com.stubhub.ticketscan;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,14 +19,30 @@ import android.widget.TextView;
 
 import com.ebay.redlasersdk.BarcodeResult;
 import com.itwizard.mezzofanti.Mezzofanti;
-//import com.itwizard.mezzofanti.R;
-import com.stubhub.ticketscan.R;
+
 public class ScanTicketActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		SharedPreferences sp = getSharedPreferences("counters", 0);
+		int launchTimes = sp.getInt("launch", 0);
+		
+		if (launchTimes == 0){
+			//initial the languages
+			
+//			try{
+//				copyFileOrDir("languages/eng/", Mezzofanti.DATA_PATH);
+//			}catch (Exception e) {
+//				e.printStackTrace();
+//			}
+		}
+		
+		launchTimes++;
+		
+		sp.edit().putInt("launch", launchTimes).commit();
+		
 		setContentView(R.layout.scan_ticket);
 
 		{
@@ -141,24 +165,6 @@ public class ScanTicketActivity extends Activity {
 				}
 			});
 		}
-		{
-			Button button = (Button) findViewById(R.id.button_scan_Trait);
-			button.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View arg0) {
-					try {
-						Intent scanIntent = new Intent(ScanTicketActivity.this,
-								Mezzofanti.class);
-						 //just use the id of the text view as request id
-						startActivityForResult(scanIntent, R.id.text_Trait_Discosure);
-					} catch (Exception e) {
-						Log.d("RLSample",
-								e.getLocalizedMessage() + " " + e.getCause());
-					}
-				}
-			});
-		}
 	}
 
 	// TODO let user customize?
@@ -192,14 +198,60 @@ public class ScanTicketActivity extends Activity {
 				textView.setText(barcode);
 
 			} else {
-				Bundle show=data.getExtras();
+				
 				TextView textView = (TextView) findViewById(requestCode);
-				//TextView textView = (TextView) findViewById(R.id.button_scan_field1);
-				textView.setText(show.getString("content"));
+				textView.setText(data.getExtras().getString("content"));
 				
 			}
 
 		}
+
+	}
+	
+	private void copyFileOrDir(String path, String targetPath) {
+	    AssetManager assetManager = this.getAssets();
+	    String assets[] = null;
+	    try {
+	        assets = assetManager.list(path);
+	        if (assets.length == 0) {
+	            copyFile(path, targetPath);
+	        } else {
+	            String fullPath = targetPath + "/" + path;
+	            File dir = new File(fullPath);
+	            if (!dir.exists())
+	                dir.mkdir();
+	            for (int i = 0; i < assets.length; ++i) {
+	                copyFileOrDir(path + "/" + assets[i], targetPath);
+	            }
+	        }
+	    } catch (IOException ex) {
+	        Log.e("tag", "I/O Exception", ex);
+	    }
+	}
+
+	private void copyFile(String filename, String targetPath) {
+	    AssetManager assetManager = this.getAssets();
+
+	    InputStream in = null;
+	    OutputStream out = null;
+	    try {
+	        in = assetManager.open(filename);
+	        String newFileName = targetPath + "/" + filename;
+	        out = new FileOutputStream(newFileName);
+
+	        byte[] buffer = new byte[1024];
+	        int read;
+	        while ((read = in.read(buffer)) != -1) {
+	            out.write(buffer, 0, read);
+	        }
+	        in.close();
+	        in = null;
+	        out.flush();
+	        out.close();
+	        out = null;
+	    } catch (Exception e) {
+	        Log.e("tag", e.getMessage());
+	    }
 
 	}
 
