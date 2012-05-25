@@ -22,6 +22,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
@@ -607,12 +608,6 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback, View
 
 
 
-
-
-
-
-
-
 	/*
 	 * ----------------------------------------------------------------------------------------------------
 	 * OCR Thread 
@@ -738,8 +733,10 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback, View
 
 				if (m_bLineMode)
 					m_clCapture.ShowWaiting("");    		
-				else
-					m_pdOCRInProgress.dismiss();
+				else{
+					if (m_pdOCRInProgress != null)
+						m_pdOCRInProgress.dismiss();
+				}
 
 				break;
 
@@ -761,17 +758,23 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback, View
 				try
 				{
 					// save the file on disk
-					FileOutputStream fs = new FileOutputStream(RESULTS_PATH + "img.jpg");
-					fs.write((byte[])msg.obj, 0, ((byte[]) msg.obj).length);
-					fs.close();
+					//XXX no permission exception, seems no use!
+//					FileOutputStream fs = new FileOutputStream(RESULTS_PATH + "img.jpg");
+//					fs.write((byte[])msg.obj, 0, ((byte[]) msg.obj).length);
+//					fs.close();
 
 					mBitmap = BitmapFactory.decodeByteArray((byte[]) msg.obj, 0, ((byte[]) msg.obj).length);
 					msg.obj = null;
 					System.gc();
 					
 					Log.v(TAG, "w="+mBitmap.getWidth() + " h="+mBitmap.getHeight());
-					if (m_bLineMode) // we crop just the image of interest
-						mBitmap = Bitmap.createBitmap(mBitmap, 256, 768/2-30, 512, 60, null, false);
+					
+					if (m_bLineMode){ // we crop just the image of interest
+						//XXX need use relative values
+						//mBitmap = Bitmap.createBitmap(mBitmap, 256, 768/2-30, 512, 60, null, false);
+						Rect frame = CameraManager.get().GetFramingRect(m_bLineMode);
+						mBitmap = Bitmap.createBitmap(mBitmap, frame.left, frame.top, frame.right - frame.left, frame.bottom - frame.top);
+					}
 					// otherwise, we use all image
 				}
 				catch (Throwable th) 

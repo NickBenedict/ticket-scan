@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
-    <string name="mezzofanti_appName">Bumping</string>
+    <string name="mezzofanti_appName">Ticket Scan</string>
     <string name="mezzofanti_ocrResult">Your ocr result here</string>
   	<string name="mezzofanti_msg_default_status">Press camera button to start OCR.</string>
   	<string name="mezzofanti_status_text">Your status here</string>
