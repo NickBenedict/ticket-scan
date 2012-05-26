@@ -41,7 +41,7 @@ import com.stubhub.ticketscan.R;
  * implementation encapsulates the steps needed to take preview-sized images, which are used for
  * both preview and decoding.
  */
-final class CameraManager 
+public final class CameraManager 
 {
   private static final String TAG = "MLOG: CameraManager.java: ";
   
@@ -292,15 +292,26 @@ final class CameraManager
   public Rect GetFramingRect(boolean linemode) 
   {
 	int border = 10;
-	if (linemode)
-		m_FramingRect = new Rect(m_ptScreenResolution.x/4, m_ptScreenResolution.y/2 - 20, 
-				m_ptScreenResolution.x * 3/4 , m_ptScreenResolution.y/2 + 20);
-	else
+	if (linemode){
+		//XXX 
+		int height = (int) (m_ptScreenResolution.x * 0.05f);
+		int width = (int) (m_ptScreenResolution.x * widthRatio);
+		
+		m_FramingRect = new Rect((m_ptScreenResolution.x - width) /2, m_ptScreenResolution.y/2 - height/2, 
+				(m_ptScreenResolution.x + width) /2 , m_ptScreenResolution.y/2 + height/2);
+	}
+	else {
 		m_FramingRect = new Rect(border, border, m_ptScreenResolution.x - border, m_ptScreenResolution.y - border - 30);
+	}
 
 	return m_FramingRect;
   }
-
+  
+  private float widthRatio = 0.5f;
+  
+  public void setScanWidthRatio(float widthRatio){
+	  this.widthRatio = widthRatio;
+  }
     
   /**
    * take a picture, and set the jpg callback
@@ -319,7 +330,9 @@ final class CameraManager
 		  return;
 	  Camera.Parameters parameters = m_Camera.getParameters();
 	  parameters.setPreviewSize(m_ptScreenResolution.x, m_ptScreenResolution.y);
-	  parameters.setPictureSize(2048/m_cImgDivisor, 1536/m_cImgDivisor);
+	  //parameters.setPictureSize(2048/m_cImgDivisor, 1536/m_cImgDivisor);
+	  //XXX
+	  parameters.setPictureSize(m_ptScreenResolution.x, m_ptScreenResolution.y);
 	  m_Camera.setParameters(parameters);
 	  Log.v(TAG, parameters.flatten());
   }
