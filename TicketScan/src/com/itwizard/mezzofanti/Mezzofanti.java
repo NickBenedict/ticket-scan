@@ -772,8 +772,10 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback, View
 					if (m_bLineMode){ // we crop just the image of interest
 						//XXX need use relative values
 						//mBitmap = Bitmap.createBitmap(mBitmap, 256, 768/2-30, 512, 60, null, false);
-						Rect frame = CameraManager.get().GetFramingRect(m_bLineMode);
-						mBitmap = Bitmap.createBitmap(mBitmap, frame.left, frame.top, frame.right - frame.left, frame.bottom - frame.top);
+						Rect frame = CameraManager.get().GetCaptureRect(m_bLineMode);
+						int widthPadding = 20;
+						int heightPadding = 10;
+						mBitmap = Bitmap.createBitmap(mBitmap, frame.left - widthPadding, frame.top - heightPadding, frame.right - frame.left + 2 * widthPadding, frame.bottom - frame.top + 2 * heightPadding);
 					}
 					// otherwise, we use all image
 				}

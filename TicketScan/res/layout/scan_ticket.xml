@@ -256,6 +256,12 @@
             android:layout_height="wrap_content"
             android:layout_margin="3dp" >
         </EditText>
+        
+        <Button
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:textSize="22dp"
+        	android:text="Sell on Stubhub" />
     </LinearLayout>
 
 </ScrollView>
