@@ -188,6 +188,17 @@ public class ScanTicketActivity extends Activity {
 				}
 			});
 		}
+		{
+			Button button = (Button) findViewById(R.id.button_sell);
+			button.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					//TODO do in background
+					//SellService.sell(deviceId, username, password, sellerListing, eventId);
+				}
+			});
+		}
 	}
 
 	// TODO let user customize?
