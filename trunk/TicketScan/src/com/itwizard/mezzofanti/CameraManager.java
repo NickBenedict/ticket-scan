@@ -22,11 +22,13 @@
 
 package com.itwizard.mezzofanti;
 import java.io.IOException;
+import java.util.List;
 
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.hardware.Camera;
+import android.hardware.Camera.Size;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -52,7 +54,7 @@ public final class CameraManager
   private Camera m_Camera;						// the camera
   private final Context m_Context;				// screen context 
   private Point m_ptScreenResolution;			// the screen resolution 				
-  private Rect m_FramingRect;					// the framing rectangle
+  //private Rect m_FramingRect;					// the framing rectangle
   private boolean m_bInitialized;				// is the driver initialized
   private boolean m_bPreviewing;				// is camera in preview mode
   private Handler m_ParentMessageHandler;		// the parent's message handler				
@@ -279,7 +281,9 @@ public final class CameraManager
 	    {
 	    	m_Camera.autoFocus(m_AutoFocusCallback);
 	    }
-  }  
+  }
+  
+  private Size pictureSize;
   
   /**
    * Calculates the framing rect which the UI should draw to show the user where to place the
@@ -291,25 +295,44 @@ public final class CameraManager
    */
   public Rect GetFramingRect(boolean linemode) 
   {
-	int border = 10;
-	if (linemode){
-		//XXX 
-		int height = (int) (m_ptScreenResolution.x * 0.05f);
-		int width = (int) (m_ptScreenResolution.x * widthRatio);
-		
-		m_FramingRect = new Rect((m_ptScreenResolution.x - width) /2, m_ptScreenResolution.y/2 - height/2, 
-				(m_ptScreenResolution.x + width) /2 , m_ptScreenResolution.y/2 + height/2);
-	}
-	else {
-		m_FramingRect = new Rect(border, border, m_ptScreenResolution.x - border, m_ptScreenResolution.y - border - 30);
-	}
-
-	return m_FramingRect;
+	Rect getRect = GetRect(linemode, m_ptScreenResolution.x,  m_ptScreenResolution.y);
+	Log.w(TAG, "GetFramingRect:" + getRect);
+	return getRect;
+  }
+  
+  private Rect GetRect(boolean linemode, int totalWidth, int totalHeight) 
+  {
+	  Rect m_FramingRect;
+	  int border = 10;
+	  if (linemode){
+		  int height = (int) (totalHeight * heightRatio);
+		  int width = (int) (totalWidth * widthRatio);
+		  
+		  m_FramingRect = new Rect((totalWidth - width) /2, totalHeight/2 - height/2, 
+				  (totalWidth + width) /2 , totalHeight/2 + height/2);
+	  }
+	  else {
+		  m_FramingRect = new Rect(border, border,totalWidth - 2 * border, totalHeight - 2 * border);
+	  }
+	  
+	  return m_FramingRect;
+  }
+  
+  public Rect GetCaptureRect(boolean linemode) 
+  {
+	Rect getRect = GetRect(linemode, pictureSize.width, pictureSize.height);
+	Log.w(TAG, "GetCaptureRect:" + getRect);
+	return getRect;
   }
   
   private float widthRatio = 0.5f;
+  private float heightRatio = 0.1f;
   
-  public void setScanWidthRatio(float widthRatio){
+  public void setHeightRatio(float heightRatio) {
+	this.heightRatio = heightRatio;
+}
+
+public void setScanWidthRatio(float widthRatio){
 	  this.widthRatio = widthRatio;
   }
     
@@ -329,10 +352,34 @@ public final class CameraManager
 	  if (m_ptScreenResolution == null) 
 		  return;
 	  Camera.Parameters parameters = m_Camera.getParameters();
+	  
+	  //List<Size> supportedPreviewSizes = parameters.getSupportedPreviewSizes();
+	  
 	  parameters.setPreviewSize(m_ptScreenResolution.x, m_ptScreenResolution.y);
-	  //parameters.setPictureSize(2048/m_cImgDivisor, 1536/m_cImgDivisor);
+
 	  //XXX
-	  parameters.setPictureSize(m_ptScreenResolution.x, m_ptScreenResolution.y);
+	  List<Size> supportedPictureSizes = parameters.getSupportedPictureSizes();
+	  //parameters.setPictureSize(2048/m_cImgDivisor, 1536/m_cImgDivisor);
+	  
+	  int widthHeightRatio = m_ptScreenResolution.x / m_ptScreenResolution.y;
+	  
+	  for (Size size : supportedPictureSizes) {
+		  if (Math.abs(size.width / size.height - widthHeightRatio ) < 0.01f){
+			  pictureSize = size;
+			  break;
+		  }
+	  }
+	  
+	  if (pictureSize == null){
+		  Log.w(TAG, "Not found PictureSize the same widthHeightRatio with PreviewSize");
+		  pictureSize = supportedPictureSizes.get(1);
+	  }
+	  
+	  parameters.setPictureSize(pictureSize.width, pictureSize.height);
+	  
+	  Log.w(TAG, "m_ptScreenResolution:" + m_ptScreenResolution.x + "," + m_ptScreenResolution.y);
+	  Log.w(TAG, "pictureSize:" + pictureSize.width + "," + pictureSize.height);
+	  
 	  m_Camera.setParameters(parameters);
 	  Log.v(TAG, parameters.flatten());
   }

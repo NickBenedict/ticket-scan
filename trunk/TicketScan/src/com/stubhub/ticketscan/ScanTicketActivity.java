@@ -26,6 +26,8 @@ import com.itwizard.mezzofanti.Mezzofanti;
 
 public class ScanTicketActivity extends Activity {
 
+	private static final int REQUEST_CODE_SCAN_BARCODE = 1234;
+	
 	private static final String TAG = "ScanTicketActivity";
 
 	@Override
@@ -35,7 +37,8 @@ public class ScanTicketActivity extends Activity {
 		SharedPreferences sp = getSharedPreferences("counters", 0);
 		int launchTimes = sp.getInt("launch", 0);
 
-		if (launchTimes == 0) {
+		//TEST
+		if (true || launchTimes == 0) {
 			// initial the languages
 
 			try {
@@ -94,7 +97,7 @@ public class ScanTicketActivity extends Activity {
 						bundle1.putBoolean(RedLaserSDK.DO_ITF, doITF);
 						Intent scanIntent = new Intent(ScanTicketActivity.this, RedLaserSDK.class);
 						scanIntent.putExtras(bundle1);
-						startActivityForResult(scanIntent, 1234);
+						startActivityForResult(scanIntent, REQUEST_CODE_SCAN_BARCODE);
 					} catch (Exception e) {
 						Log.d(TAG, e.getLocalizedMessage() + " " + e.getCause());
 					}
@@ -203,11 +206,12 @@ public class ScanTicketActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+		//set default value
 		com.itwizard.mezzofanti.CameraManager.get().setScanWidthRatio(0.5f);
 
 		if (resultCode == Activity.RESULT_OK) {
 
-			boolean isScanBarcode = requestCode == 1234;
+			boolean isScanBarcode = requestCode == REQUEST_CODE_SCAN_BARCODE;
 
 			if (isScanBarcode) {
 
