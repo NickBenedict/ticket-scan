@@ -189,7 +189,7 @@
             android:layout_margin="3dp" >
         </EditText>
 
-        <!-- Ticket price/Face Value -->
+        <!-- Ticket price -->
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -201,7 +201,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:text="Ticket Face Value"
+                android:text="Ticket Price"
                 android:textColor="#669900"
                 android:textSize="22dp" />
 
@@ -256,13 +256,21 @@
             android:layout_height="wrap_content"
             android:layout_margin="3dp" >
         </EditText>
-        
+
         <Button
-        	android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
-        	android:id="@+id/button_sell"
-        	android:textSize="22dp"
-        	android:text="Sell on Stubhub" />
+            android:id="@+id/button_sell"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Sell on\nStubhub"
+            android:textSize="22dp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar_addlisting"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
     </LinearLayout>
 
 </ScrollView>
