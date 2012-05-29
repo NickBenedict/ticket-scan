@@ -45,6 +45,7 @@ import com.stubhub.ticketscan.R;
  */
 public final class CameraManager 
 {
+
   private static final String TAG = "MLOG: CameraManager.java: ";
   
   private static byte m_cImgDivisor = 2;		// given the limited memory space, we cannot allocate memory for all the image
@@ -305,8 +306,8 @@ public final class CameraManager
 	  Rect m_FramingRect;
 	  int border = 10;
 	  if (linemode){
-		  int height = (int) (totalHeight * heightRatio);
-		  int width = (int) (totalWidth * widthRatio);
+		  int height = (int) (totalHeight * scanHeightRatio);
+		  int width = (int) (totalWidth * scanWidthRatio);
 		  
 		  m_FramingRect = new Rect((totalWidth - width) /2, totalHeight/2 - height/2, 
 				  (totalWidth + width) /2 , totalHeight/2 + height/2);
@@ -325,17 +326,25 @@ public final class CameraManager
 	return getRect;
   }
   
-  private float widthRatio = 0.5f;
-  private float heightRatio = 0.1f;
+  private static final float DEFAULT_WIDTH_RATIO = 0.5f;
+  private static final float DEFAULT_HEIGHT_RATIO = 0.1f;
   
-  public void setHeightRatio(float heightRatio) {
-	this.heightRatio = heightRatio;
-}
-
-public void setScanWidthRatio(float widthRatio){
-	  this.widthRatio = widthRatio;
+  private float scanWidthRatio = DEFAULT_WIDTH_RATIO;
+  private float scanHeightRatio = DEFAULT_HEIGHT_RATIO;
+  
+  public void setScanHeightRatio(float heightRatio) {
+	this.scanHeightRatio = heightRatio;
   }
-    
+
+  public void setScanWidthRatio(float widthRatio){
+	  this.scanWidthRatio = widthRatio;
+  }
+  
+  public void resetScanSize(){
+	  scanWidthRatio = DEFAULT_WIDTH_RATIO;
+	  scanHeightRatio = DEFAULT_HEIGHT_RATIO;
+  }
+
   /**
    * take a picture, and set the jpg callback
    */
@@ -364,6 +373,11 @@ public void setScanWidthRatio(float widthRatio){
 	  int widthHeightRatio = m_ptScreenResolution.x / m_ptScreenResolution.y;
 	  
 	  for (Size size : supportedPictureSizes) {
+		  
+		  if (size.width < m_ptScreenResolution.x || size.height < m_ptScreenResolution.y){
+			  break;
+		  }
+		  
 		  if (Math.abs(size.width / size.height - widthHeightRatio ) < 0.01f){
 			  pictureSize = size;
 			  break;

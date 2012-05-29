@@ -5,30 +5,40 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ebay.redlasersdk.BarcodeResult;
-import com.ebay.redlasersdk.scanner.CameraManager;
 import com.itwizard.mezzofanti.Mezzofanti;
+import com.stubhub.entities.MobileListing;
 
 public class ScanTicketActivity extends Activity {
 
 	private static final int REQUEST_CODE_SCAN_BARCODE = 1234;
-	
+
 	private static final String TAG = "ScanTicketActivity";
+
+	private String eventId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +47,8 @@ public class ScanTicketActivity extends Activity {
 		SharedPreferences sp = getSharedPreferences("counters", 0);
 		int launchTimes = sp.getInt("launch", 0);
 
-		//TEST
-		if (true || launchTimes == 0) {
+		// XXX TEST
+		if (false || launchTimes == 0) {
 			// initial the languages
 
 			try {
@@ -51,7 +61,8 @@ public class ScanTicketActivity extends Activity {
 				while (entries.hasMoreElements()) {
 					ZipEntry entry = (ZipEntry) entries.nextElement();
 					InputStream in = zipFile.getInputStream(entry);
-					FileOutputStream out = new FileOutputStream(Mezzofanti.DATA_PATH + entry.getName());
+					FileOutputStream out = new FileOutputStream(
+							Mezzofanti.DATA_PATH + entry.getName());
 
 					byte[] buffer = new byte[1024];
 					int len = 0;
@@ -76,6 +87,16 @@ public class ScanTicketActivity extends Activity {
 
 		setContentView(R.layout.scan_ticket);
 
+		// XXX test
+		if (true) {
+			((EditText) findViewById(R.id.text_barcode)).setText("");
+			((EditText) findViewById(R.id.text_scan_Section)).setText("");
+			((EditText) findViewById(R.id.text_Row)).setText("");
+			((EditText) findViewById(R.id.text_scan_Seat)).setText("");
+			((EditText) findViewById(R.id.text_Trait_Discosure)).setText("");
+			((EditText) findViewById(R.id.text_Ticket_price_Value)).setText("");
+		}
+
 		{
 			Button button = (Button) findViewById(R.id.button_scan_barcode);
 			button.setOnClickListener(new OnClickListener() {
@@ -92,12 +113,15 @@ public class ScanTicketActivity extends Activity {
 						bundle1.putBoolean(RedLaserSDK.DO_CODE128, doCode128);
 						bundle1.putBoolean(RedLaserSDK.DO_CODE39, doCode39);
 						bundle1.putBoolean(RedLaserSDK.DO_CODE93, doCode93);
-						bundle1.putBoolean(RedLaserSDK.DO_DATAMATRIX, doDataMatrix);
+						bundle1.putBoolean(RedLaserSDK.DO_DATAMATRIX,
+								doDataMatrix);
 						bundle1.putBoolean(RedLaserSDK.DO_RSS14, doRSS14);
 						bundle1.putBoolean(RedLaserSDK.DO_ITF, doITF);
-						Intent scanIntent = new Intent(ScanTicketActivity.this, RedLaserSDK.class);
+						Intent scanIntent = new Intent(ScanTicketActivity.this,
+								RedLaserSDK.class);
 						scanIntent.putExtras(bundle1);
-						startActivityForResult(scanIntent, REQUEST_CODE_SCAN_BARCODE);
+						startActivityForResult(scanIntent,
+								REQUEST_CODE_SCAN_BARCODE);
 					} catch (Exception e) {
 						Log.d(TAG, e.getLocalizedMessage() + " " + e.getCause());
 					}
@@ -111,7 +135,13 @@ public class ScanTicketActivity extends Activity {
 				@Override
 				public void onClick(View arg0) {
 					try {
-						Intent scanIntent = new Intent(ScanTicketActivity.this, Mezzofanti.class);
+						com.itwizard.mezzofanti.CameraManager.get()
+								.setScanWidthRatio(0.6f);
+						com.itwizard.mezzofanti.CameraManager.get()
+								.setScanHeightRatio(0.2f);
+
+						Intent scanIntent = new Intent(ScanTicketActivity.this,
+								Mezzofanti.class);
 						// just use the id of the text view as request id
 						startActivityForResult(scanIntent, R.id.text_Event_name);
 					} catch (Exception e) {
@@ -127,10 +157,13 @@ public class ScanTicketActivity extends Activity {
 				@Override
 				public void onClick(View arg0) {
 					try {
-						com.itwizard.mezzofanti.CameraManager.get().setScanWidthRatio(0.2f);
-						Intent scanIntent = new Intent(ScanTicketActivity.this, Mezzofanti.class);
+						com.itwizard.mezzofanti.CameraManager.get()
+								.setScanWidthRatio(0.2f);
+						Intent scanIntent = new Intent(ScanTicketActivity.this,
+								Mezzofanti.class);
 						// just use the id of the text view as request id
-						startActivityForResult(scanIntent, R.id.text_scan_Section);
+						startActivityForResult(scanIntent,
+								R.id.text_scan_Section);
 					} catch (Exception e) {
 						Log.d(TAG, e.getLocalizedMessage() + " " + e.getCause());
 					}
@@ -144,8 +177,10 @@ public class ScanTicketActivity extends Activity {
 				@Override
 				public void onClick(View arg0) {
 					try {
-						com.itwizard.mezzofanti.CameraManager.get().setScanWidthRatio(0.1f);
-						Intent scanIntent = new Intent(ScanTicketActivity.this, Mezzofanti.class);
+						com.itwizard.mezzofanti.CameraManager.get()
+								.setScanWidthRatio(0.1f);
+						Intent scanIntent = new Intent(ScanTicketActivity.this,
+								Mezzofanti.class);
 						// just use the id of the text view as request id
 						startActivityForResult(scanIntent, R.id.text_Row);
 					} catch (Exception e) {
@@ -161,8 +196,10 @@ public class ScanTicketActivity extends Activity {
 				@Override
 				public void onClick(View arg0) {
 					try {
-						com.itwizard.mezzofanti.CameraManager.get().setScanWidthRatio(0.1f);
-						Intent scanIntent = new Intent(ScanTicketActivity.this, Mezzofanti.class);
+						com.itwizard.mezzofanti.CameraManager.get()
+								.setScanWidthRatio(0.1f);
+						Intent scanIntent = new Intent(ScanTicketActivity.this,
+								Mezzofanti.class);
 						// just use the id of the text view as request id
 						startActivityForResult(scanIntent, R.id.text_scan_Seat);
 					} catch (Exception e) {
@@ -178,10 +215,13 @@ public class ScanTicketActivity extends Activity {
 				@Override
 				public void onClick(View arg0) {
 					try {
-						com.itwizard.mezzofanti.CameraManager.get().setScanWidthRatio(0.2f);
-						Intent scanIntent = new Intent(ScanTicketActivity.this, Mezzofanti.class);
+						com.itwizard.mezzofanti.CameraManager.get()
+								.setScanWidthRatio(0.2f);
+						Intent scanIntent = new Intent(ScanTicketActivity.this,
+								Mezzofanti.class);
 						// just use the id of the text view as request id
-						startActivityForResult(scanIntent, R.id.text_Ticket_price_Value);
+						startActivityForResult(scanIntent,
+								R.id.text_Ticket_price_Value);
 					} catch (Exception e) {
 						Log.d(TAG, e.getLocalizedMessage() + " " + e.getCause());
 					}
@@ -191,11 +231,50 @@ public class ScanTicketActivity extends Activity {
 		{
 			Button button = (Button) findViewById(R.id.button_sell);
 			button.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View arg0) {
-					//TODO do in background
-					//SellService.sell(deviceId, username, password, sellerListing, eventId);
+					// do in background
+
+					final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar_addlisting);
+
+					progressBar.setVisibility(View.VISIBLE);
+
+					AsyncTask<String, Integer, String> task = new AsyncTask<String, Integer, String>() {
+
+						@Override
+						protected String doInBackground(String... arg0) {
+							final String listingId = addListing();
+
+							runOnUiThread(new Runnable() {
+
+								@Override
+								public void run() {
+
+									progressBar.setVisibility(View.GONE);
+
+									if (listingId != null) {
+										Intent intent = new Intent(
+												ScanTicketActivity.this,
+												TicketListingActivity.class);
+										intent.putExtra("event_id", eventId);
+										intent.putExtra("ticket_id", listingId);
+										startActivity(intent);
+									} else {
+										Toast.makeText(ScanTicketActivity.this,
+												"Failed!", Toast.LENGTH_LONG)
+												.show();
+									}
+								}
+							});
+
+							return listingId;
+						}
+
+					};
+
+					task.execute();
+
 				}
 			});
 		}
@@ -217,8 +296,8 @@ public class ScanTicketActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-		//set default value
-		com.itwizard.mezzofanti.CameraManager.get().setScanWidthRatio(0.5f);
+		// set default value
+		com.itwizard.mezzofanti.CameraManager.get().resetScanSize();
 
 		if (resultCode == Activity.RESULT_OK) {
 
@@ -227,7 +306,8 @@ public class ScanTicketActivity extends Activity {
 			if (isScanBarcode) {
 
 				String barcode = data.getAction();
-				String barcodeType = data.getStringExtra(BarcodeResult.BARCODE_TYPE);
+				String barcodeType = data
+						.getStringExtra(BarcodeResult.BARCODE_TYPE);
 				Log.d(TAG, "BARCODE: " + barcode);
 
 				TextView textView = (TextView) findViewById(R.id.text_barcode);
@@ -242,6 +322,64 @@ public class ScanTicketActivity extends Activity {
 
 		}
 
+	}
+
+	private String addListing() {
+		try {
+
+			String deviceId = ((TelephonyManager) getBaseContext()
+					.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+
+			String username = "";
+			String password = "";
+
+			String eventName = ((EditText) findViewById(R.id.text_Event_name))
+					.getText().toString();
+
+			// TODO from event name
+			// http://www.stubhub.com/san-francisco-giants-tickets/giants-vs-diamondbacks-5-29-2012-2031178/
+			eventId = "2031178";
+
+			MobileListing sellerListing = new MobileListing();
+
+			sellerListing
+					.addBarcode(((EditText) findViewById(R.id.text_barcode))
+							.getText().toString());
+
+			sellerListing.setQuantity(1);
+			sellerListing
+					.setSection(((EditText) findViewById(R.id.text_scan_Section))
+							.getText().toString());
+			sellerListing.setRow(((EditText) findViewById(R.id.text_Row))
+					.getText().toString());
+			sellerListing
+					.addSeat(((EditText) findViewById(R.id.text_scan_Seat))
+							.getText().toString());
+			sellerListing
+					.setPrice(((EditText) findViewById(R.id.text_Ticket_price_Value))
+							.getText().toString());
+
+			List<String> disclosures = new ArrayList<String>();
+			disclosures
+					.add(((EditText) findViewById(R.id.text_Trait_Discosure))
+							.getText().toString());
+			sellerListing.setDisclosuresList(disclosures);
+
+			// TODO EventInfo.getDeliveryOptions.getName
+			sellerListing.setDeliveryMethod("PDF");
+
+			sellerListing.setIsInHand(true);
+
+			String listingId = SellService.sell(deviceId, username, password,
+					sellerListing, eventId);
+
+			return listingId;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 	private void copyFileOrDir(String path, String targetPath) {
@@ -295,5 +433,4 @@ public class ScanTicketActivity extends Activity {
 		}
 
 	}
-
 }

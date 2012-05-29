@@ -24,8 +24,17 @@ import com.stubhub.queryhandlers.SellingHandler;
 
 public class SellService {
 
-	public static void sell(String deviceId, String username, String password,
-			MobileListing sellerListing, int eventId) {
+	/**
+	 * 
+	 * @param deviceId
+	 * @param username
+	 * @param password
+	 * @param sellerListing
+	 * @param eventId
+	 * @return listingId
+	 */
+	public static String sell(String deviceId, String username, String password,
+			MobileListing sellerListing, String eventId) {
 
 		// 1.
 		HashMap<String, String> headers = new HashMap<String, String>();
@@ -38,16 +47,17 @@ public class SellService {
 		String sessionCookie = SellingHandler.getSessionCookie(username,
 				password);
 		if (sessionCookie.equals("")) {
-			return;
+			return null;
 		}
 
 		// 3.
 		ListingResponse response = SellingHandler.addListing(sellerGuid,
-				sessionCookie, String.valueOf(eventId),
+				sessionCookie, eventId,
 				String.valueOf(sellerListing.getQuantity()),
 				sellerListing.getSection(), sellerListing.getRow(),
 				sellerListing.getSeats(), sellerListing.getFaceValue(),
 				sellerListing.getPrice(),
+				//TODO US or UK?
 				getCurrencyName(Constants.US_BOOK_OF_BUSINESS_ID),
 				sellerListing.getSplit(), sellerListing.getTihDate(),
 				sellerListing.getDeliveryMethod(),
@@ -57,10 +67,11 @@ public class SellService {
 		response = SellingHandler.attachBarcodeToListing(sellerGuid,
 				sessionCookie, response.getListingId(),
 				sellerListing.getBarcodeList());
-
+		
+		return response.getListingId();
 	}
 
-	public static String getUserGuid(HashMap<String, String> headers) {
+	private static String getUserGuid(HashMap<String, String> headers) {
 		Document doc = getMyAccountResponse(Constants.MYACCOUNT_REST_SERVER
 				+ "/myaccountapi/myaccount/user/userGuid", headers, "GET", null);
 		// Document doc =
@@ -150,7 +161,7 @@ public class SellService {
 		return doc;
 	}
 
-	public static String getCurrencyName(int bookOfBusinessId) {
+	private static String getCurrencyName(int bookOfBusinessId) {
 		if (bookOfBusinessId == Constants.UK_BOOK_OF_BUSINESS_ID) {
 			return "GBP";
 		} else {
