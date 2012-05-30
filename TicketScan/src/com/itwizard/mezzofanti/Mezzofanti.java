@@ -758,11 +758,12 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback, View
 				try
 				{
 					// save the file on disk
-					//XXX no permission exception, seems no use!
-//					FileOutputStream fs = new FileOutputStream(RESULTS_PATH + "img.jpg");
-//					fs.write((byte[])msg.obj, 0, ((byte[]) msg.obj).length);
-//					fs.close();
-
+					//XXX no permission exception, seems no use, only for debug
+					{
+					FileOutputStream fs = new FileOutputStream(RESULTS_PATH + "img.jpg");
+					fs.write((byte[])msg.obj, 0, ((byte[]) msg.obj).length);
+					fs.close();
+					}
 					mBitmap = BitmapFactory.decodeByteArray((byte[]) msg.obj, 0, ((byte[]) msg.obj).length);
 					msg.obj = null;
 					System.gc();
@@ -776,6 +777,12 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback, View
 						int widthPadding = 20;
 						int heightPadding = 10;
 						mBitmap = Bitmap.createBitmap(mBitmap, frame.left - widthPadding, frame.top - heightPadding, frame.right - frame.left + 2 * widthPadding, frame.bottom - frame.top + 2 * heightPadding);
+					
+						{
+						FileOutputStream fs = new FileOutputStream(RESULTS_PATH + "frame_img.jpg");
+						fs.write((byte[])msg.obj, 0, ((byte[]) msg.obj).length);
+						fs.close();
+						}
 					}
 					// otherwise, we use all image
 				}
