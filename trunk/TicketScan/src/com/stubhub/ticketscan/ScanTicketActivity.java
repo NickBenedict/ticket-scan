@@ -186,7 +186,7 @@ public class ScanTicketActivity extends Activity {
 				public void onClick(View arg0) {
 					try {
 						com.itwizard.mezzofanti.CameraManager.get()
-								.setScanWidthRatio(0.1f);
+								.setScanWidthRatio(0.06f);
 						Intent scanIntent = new Intent(ScanTicketActivity.this,
 								Mezzofanti.class);
 						// just use the id of the text view as request id
@@ -205,7 +205,7 @@ public class ScanTicketActivity extends Activity {
 				public void onClick(View arg0) {
 					try {
 						com.itwizard.mezzofanti.CameraManager.get()
-								.setScanWidthRatio(0.1f);
+								.setScanWidthRatio(0.06f);
 						Intent scanIntent = new Intent(ScanTicketActivity.this,
 								Mezzofanti.class);
 						// just use the id of the text view as request id
@@ -224,12 +224,32 @@ public class ScanTicketActivity extends Activity {
 				public void onClick(View arg0) {
 					try {
 						com.itwizard.mezzofanti.CameraManager.get()
-								.setScanWidthRatio(0.2f);
+								.setScanWidthRatio(0.1f);
 						Intent scanIntent = new Intent(ScanTicketActivity.this,
 								Mezzofanti.class);
 						// just use the id of the text view as request id
 						startActivityForResult(scanIntent,
 								R.id.text_Ticket_price_Value);
+					} catch (Exception e) {
+						Log.d(TAG, e.getLocalizedMessage() + " " + e.getCause());
+					}
+				}
+			});
+		}
+		{
+			Button button = (Button) findViewById(R.id.button_scan_Trait);
+			button.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					try {
+						com.itwizard.mezzofanti.CameraManager.get()
+							.setScanWidthRatio(0.5f);
+						Intent scanIntent = new Intent(ScanTicketActivity.this,
+								Mezzofanti.class);
+						// just use the id of the text view as request id
+						startActivityForResult(scanIntent,
+								R.id.text_Trait_Discosure);
 					} catch (Exception e) {
 						Log.d(TAG, e.getLocalizedMessage() + " " + e.getCause());
 					}

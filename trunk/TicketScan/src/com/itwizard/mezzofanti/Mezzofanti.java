@@ -5,6 +5,8 @@
 
 package com.itwizard.mezzofanti;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Calendar;
 
@@ -779,9 +781,14 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback, View
 						mBitmap = Bitmap.createBitmap(mBitmap, frame.left - widthPadding, frame.top - heightPadding, frame.right - frame.left + 2 * widthPadding, frame.bottom - frame.top + 2 * heightPadding);
 					
 						{
-						FileOutputStream fs = new FileOutputStream(RESULTS_PATH + "frame_img.jpg");
-						fs.write((byte[])msg.obj, 0, ((byte[]) msg.obj).length);
-						fs.close();
+						ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+						mBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
+						File f = new File(RESULTS_PATH + "frame_img.jpg");
+						f.createNewFile();
+						//write the bytes in file
+						FileOutputStream fo = new FileOutputStream(f);
+						fo.write(bytes.toByteArray());
 						}
 					}
 					// otherwise, we use all image
