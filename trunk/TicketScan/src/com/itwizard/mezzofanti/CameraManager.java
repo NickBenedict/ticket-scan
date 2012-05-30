@@ -279,8 +279,8 @@ public final class CameraManager {
 	 * @return The rectangle to draw on screen in window coordinates.
 	 */
 	public Rect GetFramingRect(boolean linemode) {
-		Rect getRect = GetRect(linemode, previewSize.width,
-				previewSize.height);
+		Rect getRect = GetRect(linemode, m_ptScreenResolution.x,
+				m_ptScreenResolution.y);
 		Log.w(TAG, "GetFramingRect:" + getRect);
 		return getRect;
 	}
@@ -367,14 +367,14 @@ public final class CameraManager {
 				.getSupportedPictureSizes();
 		// parameters.setPictureSize(2048/m_cImgDivisor, 1536/m_cImgDivisor);
 
-		int widthHeightRatio = previewSize.width / previewSize.height;
+		int widthHeightRatio = m_ptScreenResolution.x / m_ptScreenResolution.y;
 		
 		pictureSize = null;
 
 		for (Size size : supportedPictureSizes) {
 
-			if (size.width < previewSize.width
-					|| size.height < previewSize.height) {
+			if (size.width < m_ptScreenResolution.x
+					|| size.height < m_ptScreenResolution.y) {
 				break;
 			}
 
@@ -393,8 +393,12 @@ public final class CameraManager {
 
 		parameters.setPictureSize(pictureSize.width, pictureSize.height);
 
+		Log.w(TAG, "screenSize:" + m_ptScreenResolution.x + ","
+				+ m_ptScreenResolution.y);
+		
 		Log.w(TAG, "previewSize:" + previewSize.width + ","
 				+ previewSize.height);
+		
 		Log.w(TAG, "pictureSize:" + pictureSize.width + ","
 				+ pictureSize.height);
 
