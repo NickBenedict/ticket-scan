@@ -21,11 +21,11 @@ public class Constants {
 	
 	public static final String AUTO_COMPLETE_URL = "http://www.stubhub.com/listingCatalog/getAutoComplete";
 	
-	public static final String MYACCOUNT_REST_SERVER = "https://myaccount.stubhub.com";
-	public static final String MOBILE_CHECK_OUT = "https://buy.stubhub.com/checkout/mobile/signin";
-	public static final String LCS_ROOT_SERVER = "http://publicfeed.stubhub.com";
-	public static final String FEED_SERVICE_ROOT = "http://publicfeed.stubhub.com";
-	public static final String SELLER_PRO_SERVICE_ROOT = "https://pro.stubhub.com";
+//	public static final String MYACCOUNT_REST_SERVER = "https://myaccount.stubhub.com";
+//	public static final String MOBILE_CHECK_OUT = "https://buy.stubhub.com/checkout/mobile/signin";
+//	public static final String LCS_ROOT_SERVER = "http://publicfeed.stubhub.com";
+//	public static final String FEED_SERVICE_ROOT = "http://publicfeed.stubhub.com";
+//	public static final String SELLER_PRO_SERVICE_ROOT = "https://pro.stubhub.com";
 	
 	public static final String UK_LCS_ROOT_SERVER = "http://www.stubhub.co.uk";
 	
@@ -114,16 +114,16 @@ public class Constants {
 	public static final String PARKING_PASS = "Parking Pass";
 	public static final long CURRENT_ORDER_KEEP_DAY = 3;
 	public static final String PARKWHIZ_API_KEY = "641641c68ca9ea1451f536ae23e07ced";
-	//public static final String MYACCOUNT_REST_SERVER = "http://srwd33myx001.srwd33.com:8080";
-	//public static final String MOBILE_CHECK_OUT = "https://buy.srwd33.com/checkout/mobile/Signin";
-	//public static final String LCS_ROOT_SERVER = "http://www.srwd33.com";
-	//public static final String FEED_SERVICE_ROOT = "http://srwd33dfx001.srwd33.com:8080";
-	//public static final String SELLER_PRO_SERVICE_ROOT = "https://pro.srwd33.com";
+	public static final String MYACCOUNT_REST_SERVER = "http://srwd33myx001.srwd33.com:8080";
+	public static final String MOBILE_CHECK_OUT = "https://buy.srwd33.com/checkout/mobile/Signin";
+	public static final String LCS_ROOT_SERVER = "http://www.srwd33.com";
+	public static final String FEED_SERVICE_ROOT = "http://srwd33dfx001.srwd33.com:8080";
+	public static final String SELLER_PRO_SERVICE_ROOT = "https://pro.srwd33.com";
 	
-	//public static final String MYACCOUNT_REST_SERVER = "http://srwd58myx001.srwd58.com:8080";
-	//public static final String MOBILE_CHECK_OUT = "https://buy.srwd18.com/checkout/mobile/Signin";
-	//public static final String LCS_ROOT_SERVER = "http://www.srwd18.com";
-	//public static final String FEED_SERVICE_ROOT = "http://173.254.180.233";
+//	public static final String MYACCOUNT_REST_SERVER = "http://srwd58myx001.srwd58.com:8080";
+//	public static final String MOBILE_CHECK_OUT = "https://buy.srwd18.com/checkout/mobile/Signin";
+//	public static final String LCS_ROOT_SERVER = "http://www.srwd18.com";
+//	public static final String FEED_SERVICE_ROOT = "http://173.254.180.233";
 	
 	public static final String KEY_USERNAME = "username";
 	public static final String KEY_PASSWORD = "password";	
