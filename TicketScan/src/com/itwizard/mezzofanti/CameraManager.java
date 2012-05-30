@@ -264,6 +264,8 @@ public final class CameraManager {
 			m_Camera.autoFocus(m_AutoFocusCallback);
 		}
 	}
+	
+	private Size previewSize;
 
 	private Size pictureSize;
 
@@ -277,8 +279,8 @@ public final class CameraManager {
 	 * @return The rectangle to draw on screen in window coordinates.
 	 */
 	public Rect GetFramingRect(boolean linemode) {
-		Rect getRect = GetRect(linemode, m_ptScreenResolution.x,
-				m_ptScreenResolution.y);
+		Rect getRect = GetRect(linemode, previewSize.width,
+				previewSize.height);
 		Log.w(TAG, "GetFramingRect:" + getRect);
 		return getRect;
 	}
@@ -346,7 +348,7 @@ public final class CameraManager {
 		List<Size> supportedPreviewSizes = parameters
 				.getSupportedPreviewSizes();
 
-		Size previewSize = null;
+		previewSize = null;
 		for (Size size : supportedPreviewSizes) {
 			if (size.width == m_ptScreenResolution.x
 					&& size.height == m_ptScreenResolution.y) {
@@ -366,6 +368,8 @@ public final class CameraManager {
 		// parameters.setPictureSize(2048/m_cImgDivisor, 1536/m_cImgDivisor);
 
 		int widthHeightRatio = previewSize.width / previewSize.height;
+		
+		pictureSize = null;
 
 		for (Size size : supportedPictureSizes) {
 
