@@ -264,7 +264,7 @@ public final class CameraManager {
 			m_Camera.autoFocus(m_AutoFocusCallback);
 		}
 	}
-	
+
 	private Size previewSize;
 
 	private Size pictureSize;
@@ -304,6 +304,9 @@ public final class CameraManager {
 	}
 
 	public Rect GetCaptureRect(boolean linemode) {
+		//TODO fix it, in case of different width height ratio
+//	 m_ptScreenResolution.x,
+//	 m_ptScreenResolution.y
 		Rect getRect = GetRect(linemode, pictureSize.width, pictureSize.height);
 		Log.w(TAG, "GetCaptureRect:" + getRect);
 		return getRect;
@@ -368,7 +371,7 @@ public final class CameraManager {
 		// parameters.setPictureSize(2048/m_cImgDivisor, 1536/m_cImgDivisor);
 
 		int widthHeightRatio = m_ptScreenResolution.x / m_ptScreenResolution.y;
-		
+
 		pictureSize = null;
 
 		for (Size size : supportedPictureSizes) {
@@ -395,10 +398,10 @@ public final class CameraManager {
 
 		Log.w(TAG, "screenSize:" + m_ptScreenResolution.x + ","
 				+ m_ptScreenResolution.y);
-		
+
 		Log.w(TAG, "previewSize:" + previewSize.width + ","
 				+ previewSize.height);
-		
+
 		Log.w(TAG, "pictureSize:" + pictureSize.width + ","
 				+ pictureSize.height);
 
@@ -414,8 +417,12 @@ public final class CameraManager {
 			WindowManager manager = (WindowManager) m_Context
 					.getSystemService(Context.WINDOW_SERVICE);
 			Display display = manager.getDefaultDisplay();
-			m_ptScreenResolution = new Point(display.getWidth(),
-					display.getHeight());
+			// XXX cause is landscape, need assure width is bigger than height
+			m_ptScreenResolution = new Point(
+					display.getHeight() > display.getWidth() ? display.getHeight()
+							: display.getWidth(),
+					display.getHeight() < display.getWidth() ? display
+							.getHeight() : display.getWidth());
 		}
 		return m_ptScreenResolution;
 	}
