@@ -287,7 +287,7 @@ public final class CameraManager {
 
 	private Rect GetRect(boolean linemode, int totalWidth, int totalHeight) {
 		Rect m_FramingRect;
-		int border = 10;
+		int border = 0;
 		if (linemode) {
 			int height = (int) (totalHeight * scanHeightRatio);
 			int width = (int) (totalWidth * scanWidthRatio);
@@ -303,15 +303,38 @@ public final class CameraManager {
 		return m_FramingRect;
 	}
 
+
+
 	public Rect GetCaptureRect(boolean linemode) {
-		//TODO fix it, in case of different width height ratio
+	//TODO fix it, in case of different width height ratio
 //	 m_ptScreenResolution.x,
 //	 m_ptScreenResolution.y
-		Rect getRect = GetRect(linemode, pictureSize.width, pictureSize.height);
-		Log.w(TAG, "GetCaptureRect:" + getRect);
-		return getRect;
+		double Picture_Radio= 1d * pictureSize.width/pictureSize.height;
+		double Screen_Radio= 1d * m_ptScreenResolution.x/m_ptScreenResolution.y;
+	    double ScreenToPictureHight=0;
+	    double ScreenToPictureWidth=0;
+	    
+		if(Picture_Radio<Screen_Radio)
+	    {
+			double mul=1d*pictureSize.width/m_ptScreenResolution.x;
+			ScreenToPictureHight=m_ptScreenResolution.y*Picture_Radio*mul;
+			Rect getRect = GetRect(linemode, (int)(pictureSize.width), (int)(ScreenToPictureHight));
+			Log.w(TAG, "GetCaptureRect:" + getRect);
+			return getRect;
+	    }
+		else
+		{	double mul=1d*pictureSize.height/m_ptScreenResolution.y;
+		     ScreenToPictureHight=m_ptScreenResolution.y*Picture_Radio*mul;
+			ScreenToPictureWidth=m_ptScreenResolution.x*Picture_Radio;
+			Rect getRect = GetRect(linemode, (int)(ScreenToPictureWidth), (int)(pictureSize.height));
+			Log.w(TAG, "GetCaptureRect:" + getRect);
+			return getRect;
+		}
+		
+		
 	}
 
+   
 	private static final float DEFAULT_WIDTH_RATIO = 0.5f;
 	private static final float DEFAULT_HEIGHT_RATIO = 0.1f;
 
