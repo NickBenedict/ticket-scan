@@ -330,8 +330,8 @@ public class ScanTicketActivity extends Activity {
 			String deviceId = ((TelephonyManager) getBaseContext()
 					.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
 
-			String username = "";
-			String password = "";
+			String username = "test@sh.com";
+			String password = "123456";
 
 			String eventName = ((EditText) findViewById(R.id.text_Event_name))
 					.getText().toString();
