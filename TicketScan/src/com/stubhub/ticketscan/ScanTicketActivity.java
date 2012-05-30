@@ -91,13 +91,17 @@ public class ScanTicketActivity extends Activity {
 		CameraManager.Initialize(getApplication());	        
 
 		// XXX test
-		if (true) {
+		if (false) {
 			((EditText) findViewById(R.id.text_barcode)).setText("");
-			((EditText) findViewById(R.id.text_scan_Section)).setText("");
-			((EditText) findViewById(R.id.text_Row)).setText("");
-			((EditText) findViewById(R.id.text_scan_Seat)).setText("");
-			((EditText) findViewById(R.id.text_Trait_Discosure)).setText("");
-			((EditText) findViewById(R.id.text_Ticket_price_Value)).setText("");
+			((EditText) findViewById(R.id.text_Event_name))
+					.setText("Arizona Diamondbacks at San Francisco Giants Tickets\nThursday September 27, 2012 at 12:45p.m.\nAt&T Park");
+			((EditText) findViewById(R.id.text_scan_Section))
+					.setText("Field Club 121");
+			((EditText) findViewById(R.id.text_Row)).setText("4");
+			((EditText) findViewById(R.id.text_scan_Seat)).setText("10");
+			((EditText) findViewById(R.id.text_Trait_Discosure)).setText("The barcode only allow one entry per person");
+			((EditText) findViewById(R.id.text_Ticket_price_Value))
+					.setText("60");
 		}
 
 		{
