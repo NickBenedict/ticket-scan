@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ebay.redlasersdk.BarcodeResult;
+import com.itwizard.mezzofanti.CameraManager;
 import com.itwizard.mezzofanti.Mezzofanti;
 import com.stubhub.entities.MobileListing;
 
@@ -86,6 +87,8 @@ public class ScanTicketActivity extends Activity {
 		sp.edit().putInt("launch", launchTimes).commit();
 
 		setContentView(R.layout.scan_ticket);
+		
+		CameraManager.Initialize(getApplication());	        
 
 		// XXX test
 		if (true) {
@@ -145,6 +148,7 @@ public class ScanTicketActivity extends Activity {
 						// just use the id of the text view as request id
 						startActivityForResult(scanIntent, R.id.text_Event_name);
 					} catch (Exception e) {
+						e.printStackTrace();
 						Log.d(TAG, e.getLocalizedMessage() + " " + e.getCause());
 					}
 				}
