@@ -1,5 +1,7 @@
 package com.stubhub.ticketscan;
 
+import com.stubhub.Constants;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
@@ -17,8 +19,12 @@ public class TicketListingActivity extends Activity {
 		String eventId = getIntent().getStringExtra("event_id");
 		String ticketId = getIntent().getStringExtra("ticket_id");
 
-		// http://www.stubhub.com/?event_id=2031179&ticket_id=439999751
-		webView.loadUrl("http://www.stubhub.com/?event_id=" + eventId
-				+ "&ticket_id=" + ticketId);
+		if (true) {
+			webView.loadUrl("http://www.stubhub.com/?event_id=2031179&ticket_id=439999751");
+		} else {
+			// http://www.stubhub.com/?event_id=2031179&ticket_id=439999751
+			webView.loadUrl(Constants.LCS_ROOT_SERVER + "/?event_id=" + eventId
+					+ "&ticket_id=" + ticketId);
+		}
 	}
 }
