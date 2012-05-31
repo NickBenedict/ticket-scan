@@ -10,6 +10,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import android.graphics.Typeface;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,6 +25,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +46,7 @@ public class ScanTicketActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+       
 		SharedPreferences sp = getSharedPreferences("counters", 0);
 		int launchTimes = sp.getInt("launch", 0);
 
@@ -87,7 +89,11 @@ public class ScanTicketActivity extends Activity {
 		sp.edit().putInt("launch", launchTimes).commit();
 
 		setContentView(R.layout.scan_ticket);
+		TextView textView=(TextView)findViewById(R.id.TextTitle);
 		
+		textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));//¼Ó´Ö
+
+		textView.getPaint().setFakeBoldText(true);//¼Ó´Ö
 		CameraManager.Initialize(getApplication());	        
 
 		// XXX test
@@ -105,7 +111,7 @@ public class ScanTicketActivity extends Activity {
 		}
 
 		{
-			Button button = (Button) findViewById(R.id.button_scan_barcode);
+			ImageButton button = (ImageButton) findViewById(R.id.button_scan_barcode);
 			button.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -136,7 +142,7 @@ public class ScanTicketActivity extends Activity {
 			});
 		}
 		{
-			Button button = (Button) findViewById(R.id.button_scan_Event_name);
+			ImageButton button = (ImageButton) findViewById(R.id.button_scan_Event_name);
 			button.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -159,7 +165,7 @@ public class ScanTicketActivity extends Activity {
 			});
 		}
 		{
-			Button button = (Button) findViewById(R.id.button_scan_Section);
+			ImageButton button = (ImageButton) findViewById(R.id.button_scan_Section);
 			button.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -179,7 +185,7 @@ public class ScanTicketActivity extends Activity {
 			});
 		}
 		{
-			Button button = (Button) findViewById(R.id.button_scan_Row);
+			ImageButton button = (ImageButton) findViewById(R.id.button_scan_Row);
 			button.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -198,7 +204,7 @@ public class ScanTicketActivity extends Activity {
 			});
 		}
 		{
-			Button button = (Button) findViewById(R.id.button_scan_Seat);
+			ImageButton button = (ImageButton) findViewById(R.id.button_scan_Seat);
 			button.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -217,7 +223,7 @@ public class ScanTicketActivity extends Activity {
 			});
 		}
 		{
-			Button button = (Button) findViewById(R.id.button_scan_Ticket_Price);
+			ImageButton button = (ImageButton) findViewById(R.id.button_scan_Ticket_Price);
 			button.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -237,7 +243,7 @@ public class ScanTicketActivity extends Activity {
 			});
 		}
 		{
-			Button button = (Button) findViewById(R.id.button_scan_Trait);
+			ImageButton button = (ImageButton) findViewById(R.id.button_scan_Trait);
 			button.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -257,7 +263,7 @@ public class ScanTicketActivity extends Activity {
 			});
 		}
 		{
-			Button button = (Button) findViewById(R.id.button_sell);
+			ImageButton button = (ImageButton) findViewById(R.id.button_sell);
 			button.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -353,6 +359,15 @@ public class ScanTicketActivity extends Activity {
 	}
 
 	private String addListing() {
+
+		if (true){
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+			}
+			return "";
+		}
+		
 		try {
 
 			String deviceId = ((TelephonyManager) getBaseContext()

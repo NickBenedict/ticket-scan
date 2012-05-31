@@ -20,11 +20,18 @@ public class TicketListingActivity extends Activity {
 		String ticketId = getIntent().getStringExtra("ticket_id");
 
 		if (true) {
-			webView.loadUrl("http://www.stubhub.com/?event_id=2031179&ticket_id=439999751");
+			//webView.loadUrl("http://www.stubhub.com/?event_id=2031179&ticket_id=439999751");
+			//http://www.stubhub.com/giants-vs-cubs-6-1-2012-2031179/?ticket_id=431858105
+			webView.loadUrl("http://www.stubhub.com/giants-vs-cubs-6-1-2012-2031179/?ticket_id=431858105");
+			//webView.loadUrl("http://www.stubhub.com/?event_id=2031179&ticket_id=431858105");
 		} else {
 			// http://www.stubhub.com/?event_id=2031179&ticket_id=439999751
 			webView.loadUrl(Constants.LCS_ROOT_SERVER + "/?event_id=" + eventId
 					+ "&ticket_id=" + ticketId);
 		}
 	}
+
+
+	
+	
 }
