@@ -24,15 +24,21 @@
     <application
         android:icon="@drawable/wizard_48"
         android:label="@string/mezzofanti_appName" >
+         <activity
+            android:configChanges="orientation|keyboardHidden"
+            android:name="com.stubhub.ticketscan.Login"
+            android:screenOrientation="portrait" 
+            >
+             <intent-filter >
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+         </activity>
+        
         <activity
             android:configChanges="orientation|keyboardHidden"
             android:name="com.stubhub.ticketscan.ScanTicketActivity"
-            android:screenOrientation="sensor" >
-            <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:configChanges="orientation|keyboardHidden"
