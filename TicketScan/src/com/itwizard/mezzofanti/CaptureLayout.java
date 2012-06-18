@@ -23,12 +23,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.FloatMath;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
-
+import android.view.View.OnTouchListener;
+import android.widget.ImageView;
 import com.stubhub.ticketscan.R;
 
 /**
@@ -37,10 +42,8 @@ import com.stubhub.ticketscan.R;
 public final class CaptureLayout extends View 
 {
 	private static final String TAG = "MLOG: CaptureLayout.java: ";
-
 	private final int MAX_CHARS_PER_LINE = 50;
 	private final int MAX_LINES_TO_DISPLAY = 5;
-	
 	private final Paint m_pFocus = new Paint();
 	private final Rect m_Box;
 	private final int m_nMaskColor;
@@ -54,7 +57,22 @@ public final class CaptureLayout extends View
 	private boolean m_bLineMode = true;
 	private String m_sWaitingText = "";
 	private String m_sUpperText ="";
-	
+    
+	   Matrix matrix = new Matrix();
+	   Matrix savedMatrix = new Matrix();
+
+	   // We can be in one of these 3 states
+	   static final int NONE = 0;
+	   static final int DRAG = 1;
+	   static final int ZOOM = 2;
+	   int mode = NONE;
+
+	   // Remember some things for zooming
+	   PointF start = new PointF();
+	   PointF mid = new PointF();
+	   float oldDist = 1f;
+    
+
 	/**
 	 *  This constructor is used when the class is built from an XML resource.
 	 * @param context
@@ -123,7 +141,6 @@ public final class CaptureLayout extends View
 		m_sWaitingText = wait_text;
 		invalidate();
 	}
-
 	@Override
 	public void onDraw(Canvas canvas) 
 	{
@@ -133,7 +150,7 @@ public final class CaptureLayout extends View
 			
 			int width = canvas.getWidth();
 			int height = canvas.getHeight();
-
+              
 			// Draw the exterior (i.e. outside the framing rect) darkened
 			m_Paint.setColor(m_nMaskColor);
 			m_Box.set(0, 0, width, frame.top);
@@ -155,7 +172,7 @@ public final class CaptureLayout extends View
 			canvas.drawRect(m_Box, m_Paint);
 			m_Box.set(frame.left, frame.bottom - 1, frame.right + 1, frame.bottom + 1);
 			canvas.drawRect(m_Box, m_Paint);
-		
+		    
 			if (!m_bLineMode)
 			{
 				if (m_bDisplayFocusImage)

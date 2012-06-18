@@ -5,6 +5,7 @@
 
 package com.itwizard.mezzofanti;
 
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,6 +25,8 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
@@ -35,10 +38,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.util.FloatMath;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.OrientationEventListener;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -46,12 +51,15 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.view.View.OnTouchListener;
 import com.stubhub.ticketscan.R;
+import com.stubhub.ticketscan.ScanTicketActivity;
 
-public class Mezzofanti extends Activity implements SurfaceHolder.Callback, View.OnClickListener, Runnable 
+public class Mezzofanti extends Activity implements SurfaceHolder.Callback, View.OnTouchListener,View.OnClickListener, Runnable 
 {
 	/*
 	 * ----------------------------------------------------------------------------------------
@@ -62,6 +70,7 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback, View
 	public static final String svLangExtNames[] = { ".DangAmbigs", ".freq-dawg", ".fst", ".inttemp", ".ngram_triv", 
 		".normproto", ".pffmtable", ".unicharset", ".user-words", ".word-dawg"};	
 
+	
 	// global variables used throughout the code
 	public static final String PACKAGE_NAME = "com.itwizard.mezzofanti";
 	public static final String DATA_PATH = "/sdcard/tessdata/";
@@ -111,13 +120,28 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback, View
 	private static final int HELP_ID = Menu.FIRST + 1;
 	private static final int FEEDBACK_ID = Menu.FIRST + 2;
 	private static final int ABOUT_ID = Menu.FIRST + 3;
-
+	private static int ScreenLength=0;
+	private static int ScreenWidth=0;
 	// the buttons on small-capture mode
 	private CustomImageButton m_btSwitch;
 	private CustomImageButton m_btDelOne;
 	private CustomImageButton m_btGotoResults;
+	 Matrix matrix = new Matrix();
+	   Matrix savedMatrix = new Matrix();
 
+	   // We can be in one of these 3 states
+	   static final int NONE = 0;
+	   static final int DRAG = 1;
+	   static final int ZOOM = 2;
+	   int mode = NONE;
 
+	   // Remember some things for zooming
+	   PointF start = new PointF();
+	   PointF mid = new PointF();
+	   float oldDist = 1f;
+       float oldLength=1f;
+       float oldWidth=1f;
+       
 
 
 
@@ -163,7 +187,7 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback, View
 			});
 			
 			m_clCapture = (CaptureLayout)findViewById(R.id.mezzofanti_capturelayout_view);			
-
+            m_clCapture.setOnTouchListener(this);
 			
 			m_bSdcardMounted = CheckSDCardState();
 
@@ -293,8 +317,160 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback, View
 			surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 		}
 	}
+    private void GetScreenSize()
+    {
+    	 ScreenWidth=this.getWindow().getWindowManager().getDefaultDisplay()
+        .getWidth();
+    	 Log.e(" ScreenWidth9999", "Screen"+ScreenWidth);
+    	 ScreenLength=this.getWindow().getWindowManager().getDefaultDisplay()
+        .getHeight();
+    	Log.e(" ScreenLength9999", "Screen"+ScreenLength);
+    }
+	
+	public boolean onTouch(View v, MotionEvent event) {
+		
+		
+		View view =  v;
+		Log.e(TAG, "MezzofantiOnTouch");
+      // Dump touch event to log
+		GetScreenSize();
+      // Handle touch events here...
+      // The Icons field which are used for operating
+		if(Width(event)>ScreenWidth*0.86||Heigth(event)>ScreenLength*0.85||Heigth(event)<ScreenLength*0.2){
 
+			return false;
+		}
+		else{
+			switch (event.getAction() & MotionEvent.ACTION_MASK) 
+			{
+			case MotionEvent.ACTION_DOWN:
+				savedMatrix.set(matrix);
+				//setting the initial sides
+				start.set(event.getX(), event.getY());
+					mode = DRAG;
+				break;
+			case MotionEvent.ACTION_POINTER_DOWN:
+				oldLength= CaptureScreenLength(event);
+				oldWidth= CaptureScreenWidth(event);
+				savedMatrix.set(matrix);
+				midPoint(mid, event);
+				mode = ZOOM;
+				break;
+			case MotionEvent.ACTION_UP:
+			case MotionEvent.ACTION_POINTER_UP:
+				mode = NONE;
+		
+				break;
+			case MotionEvent.ACTION_MOVE:
+				if (mode == DRAG) {
+					matrix.set(savedMatrix);
+					matrix.postTranslate(event.getX() - start.x,
+					event.getY() - start.y);
+					}
+				else if (mode == ZOOM) {
+					float enlargeWidth=0;
+					float enlaregeLength=0;
+					float newWidth= CaptureScreenWidth(event);
+					float newLength= CaptureScreenLength(event);
+					int JudgeOrientation=MoveOrientation(oldLength,oldWidth,newLength,newWidth);
+					matrix.set(savedMatrix);
+					enlargeWidth=newWidth/oldWidth;
+					enlaregeLength=newLength/oldLength;
+					Log.e("EnlaregeLength","EnlaregeLength"+enlaregeLength);
+         
+        	 float currentwidth=0;
+        	 float currentlength=0;
+        	 currentwidth=com.itwizard.mezzofanti.CameraManager.get()
+				.GetScanWidthRatio();
+        	 currentlength=com.itwizard.mezzofanti.CameraManager.get()
+				.GetScanHeightRation();
+        	
+        		 if(enlargeWidth>1&&JudgeOrientation==0){
+        			 Log.e("mode=ZOOM","enlargeWidth"+enlargeWidth);
+        			 currentwidth+=0.02f;}                 //zoom  size 
+        		 if(enlaregeLength>1&&JudgeOrientation==1){
+        			 Log.e("mode=ZOOM","enlaregeLength"+enlaregeLength);
+        			  currentlength+=0.02f;                //zoom size
+        			 }
+      
+        		 if(enlargeWidth<1&&JudgeOrientation==0){
+        		 currentwidth-=0.02f;}                      
+        		 if(enlaregeLength<1&&JudgeOrientation==1){
+        			 Log.e("mode=MINE","enlaregeLength"+enlaregeLength);
+        			 currentlength-=0.02f;
+        			 }
+        	 if((currentwidth>=0.05f&&currentlength>=0.05f)&&(currentlength<=0.55f&&currentwidth<=0.95f)){
+        		com.itwizard.mezzofanti.CameraManager.get()
+				.setScanWidthRatio(currentwidth);
+		      com.itwizard.mezzofanti.CameraManager.get()
+				.setScanHeightRatio(currentlength);
+		      ShowLineModeButtons(true);
+        	 }
+  
+         }
+         break;
+      }
+     return true; // indicate event was handled
+	}
 
+	
+   }
+  /** Determine the space between the first two fingers */
+   private float spacing(MotionEvent event) {
+      float x = event.getX(0) - event.getX(1);
+      Log.e("Position", "X0"+event.getX(0));
+      Log.e("Position", "X1"+event.getX(1));
+      Log.e("Width1122", "width"+x);
+      float y = event.getY(0) - event.getY(1);
+      Log.e("Length2233", "Length"+y);
+      return FloatMath.sqrt(x * x + y * y);
+   }
+   private float CaptureScreenLength(MotionEvent event){
+	   float y = event.getY(0) - event.getY(1);
+	   Log.e("Position", "Y0"+event.getY(0));
+	   Log.e("Position", "Y1"+event.getY(1));
+	   Log.e("Length2233", "Length"+y);
+	      return FloatMath.sqrt(y*y);
+   }
+   // To judge whether the move direction is larger X pixel or Y pixel
+   private int MoveOrientation(float oldlength, float oldwidth, float newlength, float newwidth)
+   {
+	   int largeSize=0;
+	   float distanceLength=FloatMath.sqrt((newlength-oldlength)*(newlength-oldlength));
+	   float distanceWidth=FloatMath.sqrt((newwidth-oldwidth)*(newwidth-oldwidth));
+	   if(distanceLength>distanceWidth)
+	   {
+		   largeSize=1;
+	   }
+	   else
+	   {
+		   largeSize=0;
+	   }
+	   
+	   return largeSize;
+   }
+   
+   private float CaptureScreenWidth(MotionEvent event){
+	   float x = event.getX(0) - event.getX(1);
+	   Log.e("Position", "X0"+event.getX(0));
+	   Log.e("Position", "X1"+event.getX(1));
+	    Log.e("Width1122", "width"+x);
+	      return FloatMath.sqrt(x*x);
+   }
+   private float Width(MotionEvent event) {
+	   float x = event.getX();
+	   return FloatMath.sqrt(x * x );
+   }
+   private float Heigth(MotionEvent event) {
+	      float y = event.getY();
+	      return FloatMath.sqrt(y * y);
+}
+   /** Calculate the mid point of the first two fingers */
+   private void midPoint(PointF point, MotionEvent event) {
+      float x = event.getX(0) + event.getX(1);
+      float y = event.getY(0) + event.getY(1);
+      point.set(x / 2, y / 2);
+   }
 	@Override
 	protected void onPause() 
 	{
@@ -1294,6 +1470,7 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback, View
 		}  
 
 		m_clCapture.invalidate();
+		
 	}
 
 } // end class Mezzofanti
