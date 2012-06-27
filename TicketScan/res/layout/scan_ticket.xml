@@ -19,44 +19,6 @@
             android:id="@+id/TextTitle"
             android:textSize="32dp" />
 
-        <!-- barcode -->
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:text="Barcode"
-                android:textColor="#0f0"
-                android:textSize="22dp" />
-
-            <ImageButton
-                android:id="@+id/button_scan_barcode"
-               android:layout_width="50dp"
-               android:layout_height="50dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="3dp"
-                android:text="Scan"
-                android:textColor="#0f0"
-                android:textSize="20dp" 
-                android:background="@drawable/scan3"/>
-        </RelativeLayout>
-
-        <EditText
-            android:id="@+id/text_barcode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp" >
-        </EditText>
-
-        <!-- field1 -->
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -229,7 +191,8 @@
             android:id="@+id/text_Ticket_price_Value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp" >
+            android:layout_margin="3dp"
+            android:text="$" >
         </EditText>
 
         <!-- Trait/Discosure -->
@@ -266,6 +229,43 @@
             android:layout_margin="3dp" >
         </EditText>
         
+        
+                <!-- barcode -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="Barcode"
+                android:textColor="#0f0"
+                android:textSize="22dp" />
+
+            <ImageButton
+                android:id="@+id/button_scan_barcode"
+               android:layout_width="50dp"
+               android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="3dp"
+                android:text="Scan"
+                android:textColor="#0f0"
+                android:textSize="20dp" 
+                android:background="@drawable/scan3"/>
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/text_barcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp" >
+        </EditText>
+        
 		 <ProgressBar
             android:id="@+id/progressBar_addlisting"
             style="?android:attr/progressBarStyleLarge"
@@ -282,8 +282,7 @@
             android:layout_marginLeft="60dp"
             android:textSize="22dp" 
             android:background="@drawable/selltickets"/>
-
-       
+         
     </LinearLayout>
 
 </ScrollView>

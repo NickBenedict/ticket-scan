@@ -936,11 +936,16 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback, View
 				try
 				{
 					// save the file on disk
-					//XXX no permission exception, seems no use, only for debug
-					{
-					FileOutputStream fs = new FileOutputStream(RESULTS_PATH + "img.jpg");
-					fs.write((byte[])msg.obj, 0, ((byte[]) msg.obj).length);
-					fs.close();
+					//only for debug
+					boolean debug = true;
+					if (debug){
+						try{
+							FileOutputStream fs = new FileOutputStream(RESULTS_PATH + "img.jpg");
+							fs.write((byte[])msg.obj, 0, ((byte[]) msg.obj).length);
+							fs.close();
+						}catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
 					mBitmap = BitmapFactory.decodeByteArray((byte[]) msg.obj, 0, ((byte[]) msg.obj).length);
 					msg.obj = null;
@@ -955,16 +960,21 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback, View
 						int widthPadding = 20;
 						int heightPadding = 10;
 						mBitmap = Bitmap.createBitmap(mBitmap, frame.left - widthPadding, frame.top - heightPadding, frame.right - frame.left + 2 * widthPadding, frame.bottom - frame.top + 2 * heightPadding);
-					
-						{
-						ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-						mBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
 
-						File f = new File(RESULTS_PATH + "frame_img.jpg");
-						f.createNewFile();
-						//write the bytes in file
-						FileOutputStream fo = new FileOutputStream(f);
-						fo.write(bytes.toByteArray());
+						if (debug) {
+							try{
+								ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+								mBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+		
+								File f = new File(RESULTS_PATH + "frame_img.jpg");
+								f.createNewFile();
+								//write the bytes in file
+								FileOutputStream fo = new FileOutputStream(f);
+								fo.write(bytes.toByteArray());
+								fo.close();
+							}catch (Exception e) {
+								e.printStackTrace();
+							}
 						}
 					}
 					// otherwise, we use all image

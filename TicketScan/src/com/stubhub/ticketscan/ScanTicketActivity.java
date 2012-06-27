@@ -10,20 +10,21 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import android.graphics.Typeface;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -46,12 +47,12 @@ public class ScanTicketActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-       
+
 		SharedPreferences sp = getSharedPreferences("counters", 0);
 		int launchTimes = sp.getInt("launch", 0);
 
 		// XXX TEST
-		if (false || launchTimes == 0) {
+		if (true || launchTimes == 0) {
 			// initial the languages
 
 			try {
@@ -89,12 +90,12 @@ public class ScanTicketActivity extends Activity {
 		sp.edit().putInt("launch", launchTimes).commit();
 
 		setContentView(R.layout.scan_ticket);
-		TextView textView=(TextView)findViewById(R.id.TextTitle);
-		
-		textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));//¼Ó´Ö
+		TextView textView = (TextView) findViewById(R.id.TextTitle);
 
-		textView.getPaint().setFakeBoldText(true);//¼Ó´Ö
-		CameraManager.Initialize(getApplication());	        
+		textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+
+		textView.getPaint().setFakeBoldText(true);
+		CameraManager.Initialize(getApplication());
 
 		// XXX test
 		if (false) {
@@ -105,13 +106,16 @@ public class ScanTicketActivity extends Activity {
 					.setText("Field Club 121");
 			((EditText) findViewById(R.id.text_Row)).setText("4");
 			((EditText) findViewById(R.id.text_scan_Seat)).setText("10");
-			((EditText) findViewById(R.id.text_Trait_Discosure)).setText("The barcode only allow one entry per person");
+			((EditText) findViewById(R.id.text_Trait_Discosure))
+					.setText("The barcode only allow one entry per person");
 			((EditText) findViewById(R.id.text_Ticket_price_Value))
 					.setText("60");
 		}
 
 		{
 			ImageButton button = (ImageButton) findViewById(R.id.button_scan_barcode);
+			
+			
 			button.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -245,12 +249,14 @@ public class ScanTicketActivity extends Activity {
 		{
 			ImageButton button = (ImageButton) findViewById(R.id.button_scan_Trait);
 			button.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View arg0) {
 					try {
 						com.itwizard.mezzofanti.CameraManager.get()
-							.setScanWidthRatio(0.5f);
+								.setScanWidthRatio(0.65f);
+						com.itwizard.mezzofanti.CameraManager.get()
+							.setScanHeightRatio(0.12f);
 						Intent scanIntent = new Intent(ScanTicketActivity.this,
 								Mezzofanti.class);
 						// just use the id of the text view as request id
@@ -288,12 +294,36 @@ public class ScanTicketActivity extends Activity {
 									progressBar.setVisibility(View.GONE);
 
 									if (listingId != null) {
-										Intent intent = new Intent(
-												ScanTicketActivity.this,
-												TicketListingActivity.class);
-										intent.putExtra("event_id", eventId);
-										intent.putExtra("ticket_id", listingId);
-										startActivity(intent);
+
+										new AlertDialog.Builder(
+												ScanTicketActivity.this)
+												.setTitle(
+														"Ticket on Shelf Now!")
+												.setMessage(
+														"Would you like to view it?")
+												.setPositiveButton(
+														"Yes",
+														new DialogInterface.OnClickListener() {
+
+															@Override
+															public void onClick(
+																	DialogInterface arg0,
+																	int arg1) {
+																Intent intent = new Intent(
+																		ScanTicketActivity.this,
+																		TicketListingActivity.class);
+																intent.putExtra(
+																		"event_id",
+																		eventId);
+																intent.putExtra(
+																		"ticket_id",
+																		listingId);
+																startActivity(intent);
+															}
+														})
+												.setNegativeButton("No", null)
+												.show();
+
 									} else {
 										Toast.makeText(ScanTicketActivity.this,
 												"Failed!", Toast.LENGTH_LONG)
@@ -360,14 +390,14 @@ public class ScanTicketActivity extends Activity {
 
 	private String addListing() {
 
-		if (true){
+		if (true) {
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 			}
 			return "";
 		}
-		
+
 		try {
 
 			String deviceId = ((TelephonyManager) getBaseContext()
@@ -385,9 +415,9 @@ public class ScanTicketActivity extends Activity {
 
 			MobileListing sellerListing = new MobileListing();
 
-			sellerListing
-					.addBarcode(((EditText) findViewById(R.id.text_barcode))
-							.getText().toString());
+//			sellerListing
+//					.addBarcode(((EditText) findViewById(R.id.text_barcode))
+//							.getText().toString());
 
 			sellerListing.setQuantity(1);
 			sellerListing
