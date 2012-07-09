@@ -70,21 +70,21 @@ public final class CameraManager {
 	private Handler m_ParentMessageHandler; // the parent's message handler
 	private SurfaceHolder m_ParentSurfaceHolder = null; // the parent's surface
 														// holder
-	 private static final String TAG1 = "Touch";
-	   // These matrices will be used to move and zoom image
-	   Matrix matrix = new Matrix();
-	   Matrix savedMatrix = new Matrix();
+	private static final String TAG1 = "Touch";
+	// These matrices will be used to move and zoom image
+	Matrix matrix = new Matrix();
+	Matrix savedMatrix = new Matrix();
 
-	   // We can be in one of these 3 states
-	   static final int NONE = 0;
-	   static final int DRAG = 1;
-	   static final int ZOOM = 2;
-	   int mode = NONE;
+	// We can be in one of these 3 states
+	static final int NONE = 0;
+	static final int DRAG = 1;
+	static final int ZOOM = 2;
+	int mode = NONE;
 
-	   // Remember some things for zooming
-	   PointF start = new PointF();
-	   PointF mid = new PointF();
-	   float oldDist = 1f;
+	// Remember some things for zooming
+	PointF start = new PointF();
+	PointF mid = new PointF();
+	float oldDist = 1f;
 
 	/**
 	 * called when jpeg-image ready, just send to the parent handler the whole
@@ -286,7 +286,6 @@ public final class CameraManager {
 		}
 	}
 
-	
 	private Size previewSize;
 
 	private Size pictureSize;
@@ -303,7 +302,7 @@ public final class CameraManager {
 	public Rect GetFramingRect(boolean linemode) {
 		Rect getRect = GetRect(linemode, m_ptScreenResolution.x,
 				m_ptScreenResolution.y);
-	
+
 		Log.w(TAG, "GetFramingRect:" + getRect);
 		return getRect;
 	}
@@ -318,48 +317,42 @@ public final class CameraManager {
 			m_FramingRect = new Rect((totalWidth - width) / 2, totalHeight / 2
 					- height / 2, (totalWidth + width) / 2, totalHeight / 2
 					+ height / 2);
-		
-			 
+
 		} else {
 			m_FramingRect = new Rect(border, border, totalWidth - 2 * border,
 					totalHeight - 2 * border);
 		}
-        
+
 		return m_FramingRect;
 	}
 
-
-
 	public Rect GetCaptureRect(boolean linemode) {
-	//TODO fix it, in case of different width height ratio
-//	 ,
-//	 m_ptScreenResolution.y
-		double Picture_Radio= 1d * pictureSize.width/pictureSize.height;
-		double Screen_Radio= 1d * m_ptScreenResolution.x/m_ptScreenResolution.y;
-	    double ScreenToPictureHight=0;
-	    double ScreenToPictureWidth=0;
-	    
-		if(Picture_Radio<Screen_Radio)
-	    {
-			double mul=1d*pictureSize.width/m_ptScreenResolution.x;
-			ScreenToPictureHight=m_ptScreenResolution.y*Picture_Radio*mul;
-			Rect getRect = GetRect(linemode, (int)(pictureSize.width), (int)(ScreenToPictureHight));
+		// TODO fix it, in case of different width height ratio
+		// ,
+		// m_ptScreenResolution.y
+		double Picture_Radio = 1d * pictureSize.width / pictureSize.height;
+		double Screen_Radio = 1d * m_ptScreenResolution.x
+				/ m_ptScreenResolution.y;
+		double ScreenToPictureWidth = 0;
+
+		if (Picture_Radio < Screen_Radio) {
+			double mul = 1d * pictureSize.width / m_ptScreenResolution.x;
+			ScreenToPictureWidth = m_ptScreenResolution.y * Picture_Radio * mul;
+			Rect getRect = GetRect(linemode, (int) (pictureSize.width),
+					(int) (ScreenToPictureWidth));
 			Log.w(TAG, "GetCaptureRect:" + getRect);
 			return getRect;
-	    }
-		else
-		{	double mul=1d*pictureSize.height/m_ptScreenResolution.y;
-		     ScreenToPictureHight=m_ptScreenResolution.y*Picture_Radio*mul;
-			ScreenToPictureWidth=m_ptScreenResolution.x*Picture_Radio;
-			Rect getRect = GetRect(linemode, (int)(ScreenToPictureWidth), (int)(pictureSize.height));
+		} else {
+			double mul = 1d * pictureSize.height / m_ptScreenResolution.y;
+			ScreenToPictureWidth = m_ptScreenResolution.y * Picture_Radio * mul;
+			Rect getRect = GetRect(linemode, (int) (ScreenToPictureWidth),
+					(int) (pictureSize.height));
 			Log.w(TAG, "GetCaptureRect:" + getRect);
 			return getRect;
 		}
-		
-		
+
 	}
 
-   
 	private static final float DEFAULT_WIDTH_RATIO = 0.5f;
 	private static final float DEFAULT_HEIGHT_RATIO = 0.1f;
 
@@ -373,15 +366,15 @@ public final class CameraManager {
 	public void setScanWidthRatio(float widthRatio) {
 		this.scanWidthRatio = widthRatio;
 	}
-    public float GetScanWidthRatio()
-    {
-    	return this.scanWidthRatio;
-    }
-	
-    public float GetScanHeightRation()
-    {
-    	return this.scanHeightRatio;
-    }
+
+	public float GetScanWidthRatio() {
+		return this.scanWidthRatio;
+	}
+
+	public float GetScanHeightRation() {
+		return this.scanHeightRatio;
+	}
+
 	public void resetScanSize() {
 		scanWidthRatio = DEFAULT_WIDTH_RATIO;
 		scanHeightRatio = DEFAULT_HEIGHT_RATIO;
@@ -403,6 +396,9 @@ public final class CameraManager {
 			return;
 		Camera.Parameters parameters = m_Camera.getParameters();
 
+		double ratio = (double) m_ptScreenResolution.x
+				/ (double) m_ptScreenResolution.y;
+
 		// XXX
 		List<Size> supportedPreviewSizes = parameters
 				.getSupportedPreviewSizes();
@@ -416,8 +412,8 @@ public final class CameraManager {
 		}
 
 		if (previewSize == null) {
-			previewSize = supportedPreviewSizes.get(supportedPreviewSizes
-					.size() / 2);
+			previewSize = supportedPreviewSizes.get(chooseBestSize(ratio,
+					supportedPreviewSizes));
 		}
 
 		parameters.setPreviewSize(previewSize.width, previewSize.height);
@@ -446,8 +442,8 @@ public final class CameraManager {
 		if (pictureSize == null) {
 			Log.w(TAG,
 					"Not found PictureSize the same widthHeightRatio with PreviewSize");
-			pictureSize = supportedPictureSizes.get(supportedPictureSizes
-					.size() / 2);
+			pictureSize = supportedPictureSizes.get(chooseBestSize(ratio,
+					supportedPictureSizes));
 		}
 
 		parameters.setPictureSize(pictureSize.width, pictureSize.height);
@@ -465,6 +461,22 @@ public final class CameraManager {
 		Log.v(TAG, parameters.flatten());
 	}
 
+	private int chooseBestSize(double ratio, List<Size> supportedSize) {
+		double tinyFault = 10;
+		int arrayIndex = 0;
+		for (int i = 0; i != supportedSize.size(); i++) {
+			if (supportedSize.get(i) != null) {
+				double supportedRatio = (double) supportedSize.get(i).width
+						/ (double) supportedSize.get(i).height;
+				if (tinyFault > Math.abs(ratio - supportedRatio)) {
+					tinyFault = Math.abs(ratio - supportedRatio);
+					arrayIndex = i;
+				}
+			}
+		}
+		return arrayIndex;
+	}
+
 	/**
 	 * @return the screen resolution
 	 */
@@ -472,7 +484,7 @@ public final class CameraManager {
 		if (m_ptScreenResolution == null) {
 			WindowManager manager = (WindowManager) m_Context
 					.getSystemService(Context.WINDOW_SERVICE);
-			
+
 			Display display = manager.getDefaultDisplay();
 			// XXX cause is landscape, need assure width is bigger than height
 			m_ptScreenResolution = new Point(
