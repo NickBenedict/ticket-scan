@@ -118,7 +118,6 @@ public class ScanTicketActivity extends Activity {
 			
 			button.setOnClickListener(new OnClickListener() {
 
-				@Override
 				public void onClick(View arg0) {
 					try {
 						Bundle bundle1 = new Bundle();
@@ -149,7 +148,6 @@ public class ScanTicketActivity extends Activity {
 			ImageButton button = (ImageButton) findViewById(R.id.button_scan_Event_name);
 			button.setOnClickListener(new OnClickListener() {
 
-				@Override
 				public void onClick(View arg0) {
 					try {
 						com.itwizard.mezzofanti.CameraManager.get()
@@ -172,7 +170,6 @@ public class ScanTicketActivity extends Activity {
 			ImageButton button = (ImageButton) findViewById(R.id.button_scan_Section);
 			button.setOnClickListener(new OnClickListener() {
 
-				@Override
 				public void onClick(View arg0) {
 					try {
 						com.itwizard.mezzofanti.CameraManager.get()
@@ -192,7 +189,6 @@ public class ScanTicketActivity extends Activity {
 			ImageButton button = (ImageButton) findViewById(R.id.button_scan_Row);
 			button.setOnClickListener(new OnClickListener() {
 
-				@Override
 				public void onClick(View arg0) {
 					try {
 						com.itwizard.mezzofanti.CameraManager.get()
@@ -211,7 +207,6 @@ public class ScanTicketActivity extends Activity {
 			ImageButton button = (ImageButton) findViewById(R.id.button_scan_Seat);
 			button.setOnClickListener(new OnClickListener() {
 
-				@Override
 				public void onClick(View arg0) {
 					try {
 						com.itwizard.mezzofanti.CameraManager.get()
@@ -230,7 +225,6 @@ public class ScanTicketActivity extends Activity {
 			ImageButton button = (ImageButton) findViewById(R.id.button_scan_Ticket_Price);
 			button.setOnClickListener(new OnClickListener() {
 
-				@Override
 				public void onClick(View arg0) {
 					try {
 						com.itwizard.mezzofanti.CameraManager.get()
@@ -250,7 +244,6 @@ public class ScanTicketActivity extends Activity {
 			ImageButton button = (ImageButton) findViewById(R.id.button_scan_Trait);
 			button.setOnClickListener(new OnClickListener() {
 
-				@Override
 				public void onClick(View arg0) {
 					try {
 						com.itwizard.mezzofanti.CameraManager.get()
@@ -272,7 +265,6 @@ public class ScanTicketActivity extends Activity {
 			ImageButton button = (ImageButton) findViewById(R.id.button_sell);
 			button.setOnClickListener(new OnClickListener() {
 
-				@Override
 				public void onClick(View arg0) {
 					// do in background
 
@@ -288,7 +280,6 @@ public class ScanTicketActivity extends Activity {
 
 							runOnUiThread(new Runnable() {
 
-								@Override
 								public void run() {
 
 									progressBar.setVisibility(View.GONE);
@@ -305,7 +296,6 @@ public class ScanTicketActivity extends Activity {
 														"Yes",
 														new DialogInterface.OnClickListener() {
 
-															@Override
 															public void onClick(
 																	DialogInterface arg0,
 																	int arg1) {
