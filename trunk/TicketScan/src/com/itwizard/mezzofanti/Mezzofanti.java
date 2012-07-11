@@ -141,9 +141,9 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback,
 	private static int ScreenLength = 0;
 	private static int ScreenWidth = 0;
 	// the buttons on small-capture mode
-	private CustomImageButton m_btSwitch;
-	private CustomImageButton m_btDelOne;
-	private CustomImageButton m_btGotoResults;
+	private ImageButton m_btSwitch;
+	private ImageButton m_btDelOne;
+	private ImageButton m_btGotoResults;
 	Matrix matrix = new Matrix();
 	Matrix savedMatrix = new Matrix();
 
@@ -188,14 +188,27 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback,
 
 			// set the layout to the xml definition
 			setContentView(R.layout.main);
-			CustomImageButton bt = (CustomImageButton) findViewById(R.id.mezzofanti_button_camerabutton);
-			bt.SetImage(R.drawable.camera_64, 0, 0);
+			final ImageButton bt = (ImageButton) findViewById(R.id.mezzofanti_button_camerabutton);
+			bt.setBackgroundResource(R.drawable.camera_64);
+			bt.setOnTouchListener(new OnTouchListener() {
+				
+				public boolean onTouch(View arg0, MotionEvent event) {
+					if (event.getAction() == MotionEvent.ACTION_DOWN) {
+						bt.setBackgroundResource(R.drawable.camera_64_clicked);
+					} else if (event.getAction() == MotionEvent.ACTION_UP) {
+						bt.setBackgroundResource(R.drawable.camera_64);
+					}
+					return false;
+				}
+			});
 			bt.setOnClickListener(new OnClickListener() {
 
 				public void onClick(View v) {
+					bt.setBackgroundResource(R.drawable.camera_64_clicked);
 					Log.v(TAG, "CameraButton OnClick");
 					m_bScreenRequestPicture = true;
 					RequestCameraFocus();
+					bt.setBackgroundResource(R.drawable.camera_64);
 				}
 			});
 
@@ -1355,12 +1368,14 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback,
 	 */
 	private void CreateStatusbarButtonsCaptureMode() {
 		// create the status bar buttons
-		m_btSwitch = (CustomImageButton) findViewById(R.id.mezzofanti_button_switch);
-		m_btDelOne = (CustomImageButton) findViewById(R.id.mezzofanti_button_delone);
-		m_btGotoResults = (CustomImageButton) findViewById(R.id.mezzofanti_button_gotoresults);
+		m_btSwitch = (ImageButton) findViewById(R.id.mezzofanti_button_switch);
+		m_btSwitch.setBackgroundResource(R.drawable.switch_32);
+		
+		m_btDelOne = (ImageButton) findViewById(R.id.mezzofanti_button_delone);
+		m_btGotoResults = (ImageButton) findViewById(R.id.mezzofanti_button_gotoresults);
 
-		m_btDelOne.SetImage(R.drawable.delone_32, 0, 0);
-		m_btGotoResults.SetImage(R.drawable.gotoresults_32, 0, 0);
+		m_btDelOne.setBackgroundResource(R.drawable.delone_32);
+		m_btGotoResults.setBackgroundResource(R.drawable.gotoresults_32);
 
 		m_btSwitch.setOnClickListener(new OnClickListener() {
 			public void onClick(View clickedView) {

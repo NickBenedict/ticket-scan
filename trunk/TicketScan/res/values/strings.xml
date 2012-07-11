@@ -43,8 +43,8 @@ This may happen for one of the following reasons: \n
 - there was too much light in the picture (consider changing the position of the paper)\n\n</string>
 	<string name="resultsactivity_ocrbadresults_ok">OK</string>
 	
-    <string name="mezzofanti_capturemode_statustext_switchtosmall">switch to small capture mode</string>
-    <string name="mezzofanti_capturemode_statustext_switchtolarge">switch to large capture mode</string>
+    <string name="mezzofanti_capturemode_statustext_switchtosmall">Normal mode</string>
+    <string name="mezzofanti_capturemode_statustext_switchtolarge">Fullscreen mode</string>
     <string name="mezzofanti_capturemode_statustext_switchtolarge2">delete-last / go-to-results</string>	
  
 

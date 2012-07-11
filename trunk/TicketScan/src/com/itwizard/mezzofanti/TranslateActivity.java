@@ -38,7 +38,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -61,7 +60,6 @@ public class TranslateActivity extends Activity implements LDActivity, Runnable 
 	// buttons
 	private CustomImageButton m_btLanguageFrom; // language to translate from
 	private CustomImageButton m_btLanguageTo; // language to translate-into
-	private CustomImageButton m_btEmail;
 	private CustomImageButton m_btSMS;
 
 	private boolean m_bThreadStarted = false; // thread started or not
@@ -121,10 +119,6 @@ public class TranslateActivity extends Activity implements LDActivity, Runnable 
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-		setContentView(R.layout.translate);
-		LinearLayout layoutEditText = (LinearLayout) findViewById(R.id.translateactivity_edit_layout);
-		layoutEditText.invalidate();
-
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		handler.sendEmptyMessageDelayed(
@@ -163,18 +157,6 @@ public class TranslateActivity extends Activity implements LDActivity, Runnable 
 	 * Resize the EditTexts such a way both fill completly the screen.
 	 */
 	private void ResizeEditTextViews() {
-		m_tvStatus = (TextView) findViewById(R.id.translateactivity_status_text);
-
-		LinearLayout layoutButtons = (LinearLayout) findViewById(R.id.translateactivity_buttons_layout);
-		LinearLayout layoutEditText = (LinearLayout) findViewById(R.id.translateactivity_edit_layout);
-		int layoutHeight = layoutEditText.getMeasuredHeight();
-		m_etOriginal = (EditText) findViewById(R.id.translateactivity_edit_text_original);
-		m_etTranslation = (EditText) findViewById(R.id.translateactivity_edit_text_translation);
-		m_etOriginal.setHeight(layoutHeight / 2);
-		m_etTranslation.setHeight(layoutHeight / 2);
-		Log.v(TAG,
-				"Edit Text height: " + layoutHeight + "  "
-						+ layoutEditText.getHeight());
 
 		Language fromlang = Languages.Language.mShortNameToLanguage
 				.get(m_sFromShortName);
@@ -195,13 +177,6 @@ public class TranslateActivity extends Activity implements LDActivity, Runnable 
 			});
 			m_btLanguageFrom.setLayoutParams(new LinearLayout.LayoutParams(48,
 					30));
-			layoutButtons.addView(m_btLanguageFrom);
-
-			// padding layout
-			FrameLayout fl = new FrameLayout(this);
-			fl.setLayoutParams(new LinearLayout.LayoutParams(48,
-					layoutHeight / 2 - 30));
-			layoutButtons.addView(fl);
 
 			// Language selector to button
 			m_btLanguageTo = new CustomImageButton(this, tolang.getFlag(),
@@ -213,31 +188,6 @@ public class TranslateActivity extends Activity implements LDActivity, Runnable 
 					showDialog(R.id.translateactivity_dialogid);
 				}
 			});
-			m_btLanguageTo
-					.setLayoutParams(new LinearLayout.LayoutParams(48, 30));
-			layoutButtons.addView(m_btLanguageTo);
-
-			// padding layout
-			fl = new FrameLayout(this);
-			fl.setLayoutParams(new LinearLayout.LayoutParams(48, layoutHeight
-					/ 2 - 30 - 48 * 2));
-			layoutButtons.addView(fl);
-
-			// email button
-			m_btEmail = new CustomImageButton(this, R.drawable.email3_48,
-					"e-mail", 0, 0);
-			m_btEmail.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-					Intent intent2 = new Intent(Intent.ACTION_SENDTO, Uri
-							.parse("mailto:"));
-					intent2.putExtra("subject", "[Mezzofanti]");
-					intent2.putExtra("body", m_etTranslation.getText()
-							.toString());
-					startActivity(intent2);
-				}
-			});
-			m_btEmail.setLayoutParams(new LinearLayout.LayoutParams(48, 48));
-			layoutButtons.addView(m_btEmail);
 
 			// sms button
 			m_btSMS = new CustomImageButton(this, R.drawable.htc_48, "sms", 0,
@@ -253,7 +203,6 @@ public class TranslateActivity extends Activity implements LDActivity, Runnable 
 				}
 			});
 			m_btSMS.setLayoutParams(new LinearLayout.LayoutParams(48, 48));
-			layoutButtons.addView(m_btSMS);
 
 		} catch (Exception e) {
 			Log.v(TAG, "Exception: " + e.toString());

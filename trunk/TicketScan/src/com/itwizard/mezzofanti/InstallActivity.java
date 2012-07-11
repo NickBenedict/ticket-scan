@@ -29,10 +29,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.stubhub.ticketscan.R;
 
@@ -77,31 +74,9 @@ public class InstallActivity extends Activity
 	        // never enter standby when camera open
 	        Window window = getWindow();
 	        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		        
-	        // set the layout to the xml definition
-	        setContentView(R.layout.install);
-            EditText tbox = (EditText) findViewById(R.id.installactivity_welcome_text);
-            tbox.setText(R.string.installactivity_mainMessage);
-            
-            tbox.setOnLongClickListener(new View.OnLongClickListener()
-            {
-				//@Override
-				public boolean onLongClick(View v) {
-					return true;
-				}
-            	
-            });
-            tbox.setOnClickListener(new View.OnClickListener()
-            {
-				//@Override
-				public void onClick(View v) {
-				}
-            	
-            });
+	        
             Log.v(TAG, "welcome");
             
-            
-            m_LocalProgressBar = (ProgressBar) findViewById(R.id.installactivity_progressbar);
             m_AssetsManager = new AssetsManager(m_LocalMessageHandler, m_LocalProgressBar);
             m_AssetsManager.InstallLanguageAssetsJob();
         }
@@ -141,20 +116,6 @@ public class InstallActivity extends Activity
 	private void InstallFinishedStartApp()
 	{
 		m_LocalProgressBar.setVisibility(View.GONE);
-		TextView tv = (TextView) findViewById(R.id.installactivity_status_text);
-		tv.setVisibility(View.GONE);
-		
-		Button bt = (Button) findViewById(R.id.installactivity_buttondone);
-		bt.setVisibility(View.VISIBLE);
-		bt.setOnClickListener(new View.OnClickListener()
-			{
-				//@Override
-				public void onClick(View v) 
-				{
-					finish();
-				}
-			}
-		);
 	}
 
 	/**
