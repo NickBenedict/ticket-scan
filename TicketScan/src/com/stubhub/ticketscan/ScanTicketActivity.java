@@ -28,6 +28,7 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -90,8 +91,8 @@ public class ScanTicketActivity extends Activity {
 		sp.edit().putInt("launch", launchTimes).commit();
 
 		setContentView(R.layout.scan_ticket);
+		
 		TextView textView = (TextView) findViewById(R.id.TextTitle);
-
 		textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
 
 		textView.getPaint().setFakeBoldText(true);
@@ -114,8 +115,7 @@ public class ScanTicketActivity extends Activity {
 
 		{
 			ImageButton button = (ImageButton) findViewById(R.id.button_scan_barcode);
-			
-			
+
 			button.setOnClickListener(new OnClickListener() {
 
 				public void onClick(View arg0) {
@@ -249,7 +249,7 @@ public class ScanTicketActivity extends Activity {
 						com.itwizard.mezzofanti.CameraManager.get()
 								.setScanWidthRatio(0.65f);
 						com.itwizard.mezzofanti.CameraManager.get()
-							.setScanHeightRatio(0.12f);
+								.setScanHeightRatio(0.12f);
 						Intent scanIntent = new Intent(ScanTicketActivity.this,
 								Mezzofanti.class);
 						// just use the id of the text view as request id
@@ -405,9 +405,9 @@ public class ScanTicketActivity extends Activity {
 
 			MobileListing sellerListing = new MobileListing();
 
-//			sellerListing
-//					.addBarcode(((EditText) findViewById(R.id.text_barcode))
-//							.getText().toString());
+			// sellerListing
+			// .addBarcode(((EditText) findViewById(R.id.text_barcode))
+			// .getText().toString());
 
 			sellerListing.setQuantity(1);
 			sellerListing

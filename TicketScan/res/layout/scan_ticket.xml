@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical" 
+        android:background="@drawable/background">
 
         <TextView
+            android:id="@+id/TextTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:gravity="center"
             android:text="Scan Ticket"
-            android:textColor="#CC0000"
-            android:id="@+id/TextTitle"
+            android:textColor="#FFFFFF"
             android:textSize="32dp" />
 
         <RelativeLayout
@@ -26,21 +28,23 @@
 
             <ImageButton
                 android:id="@+id/button_scan_Event_name"
-              android:layout_width="50dp"
-               android:layout_height="50dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="3dp"
+                android:background="@drawable/scan"
                 android:text="Scan"
                 android:textColor="#0ff"
-                android:textSize="20dp" 
-                android:background="@drawable/scan3"/>
+                android:textSize="20dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_alignParentLeft="true"
-                android:text="Event name"
+                android:layout_centerVertical="true"
+                android:text="Event Name"
                 android:textColor="#0ff"
                 android:textSize="22dp" />
         </RelativeLayout>
@@ -60,23 +64,25 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:text="Section"
                 android:textColor="#AA66CC"
                 android:textSize="22dp" />
 
-           <ImageButton
+            <ImageButton
                 android:id="@+id/button_scan_Section"
-                    android:layout_width="50dp"
-               android:layout_height="50dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="3dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="3dp"
+                android:background="@drawable/scan"
                 android:text="Scan"
                 android:textColor="#AA66CC"
-                android:textSize="20dp"
-                android:background="@drawable/scan3" />
+                android:textSize="20dp" />
+
         </RelativeLayout>
 
         <EditText
@@ -95,6 +101,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:text="Row"
@@ -108,11 +115,10 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="3dp"
+                android:background="@drawable/scan"
                 android:text="Scan"
                 android:textColor="#FF4444"
-                android:textSize="20dp" 
-                 android:background="@drawable/scan3"
-                />
+                android:textSize="20dp" />
         </RelativeLayout>
 
         <EditText
@@ -132,23 +138,24 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:text="Seat"
                 android:textColor="#FF8800"
                 android:textSize="22dp" />
 
-             <ImageButton
+            <ImageButton
                 android:id="@+id/button_scan_Seat"
-                 android:layout_width="50dp"
+                android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="3dp"
+                android:background="@drawable/scan"
                 android:text="Scan"
                 android:textColor="#FF8800"
-                android:textSize="20dp" 
-                 android:background="@drawable/scan3"/>
+                android:textSize="20dp" />
         </RelativeLayout>
 
         <EditText
@@ -168,6 +175,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:text="Ticket Price"
@@ -181,10 +189,10 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="3dp"
+                android:background="@drawable/scan"
                 android:text="Scan"
                 android:textColor="#669900"
-                android:textSize="20dp" 
-                android:background="@drawable/scan3"/>
+                android:textSize="20dp" />
         </RelativeLayout>
 
         <EditText
@@ -205,21 +213,22 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:text="Trait/Discosure"
                 android:textSize="22dp" />
 
-              <ImageButton
+            <ImageButton
                 android:id="@+id/button_scan_Trait"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="3dp"
+                android:background="@drawable/scan"
                 android:text="Scan"
-                android:textSize="20dp"
-                android:background="@drawable/scan3"/>
+                android:textSize="20dp" />
         </RelativeLayout>
 
         <EditText
@@ -228,9 +237,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="3dp" >
         </EditText>
-        
-        
-                <!-- barcode -->
+
+        <!-- barcode -->
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -240,6 +248,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:text="Barcode"
@@ -248,15 +257,15 @@
 
             <ImageButton
                 android:id="@+id/button_scan_barcode"
-               android:layout_width="50dp"
-               android:layout_height="50dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="3dp"
+                android:background="@drawable/scan"
                 android:text="Scan"
                 android:textColor="#0f0"
-                android:textSize="20dp" 
-                android:background="@drawable/scan3"/>
+                android:textSize="20dp" />
         </RelativeLayout>
 
         <EditText
@@ -265,24 +274,23 @@
             android:layout_height="wrap_content"
             android:layout_margin="3dp" >
         </EditText>
-        
-		 <ProgressBar
+
+        <ProgressBar
             android:id="@+id/progressBar_addlisting"
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="gone" />
-		 
-         <ImageButton
+
+        <ImageButton
             android:id="@+id/button_sell"
             android:layout_width="200dp"
-            android:layout_height="100dp"
-            android:text="Sell on\nStubhub"
+            android:layout_height="90dp"
             android:layout_marginLeft="60dp"
-            android:textSize="22dp" 
-            android:background="@drawable/selltickets"/>
-         
+            android:background="@drawable/selltickets"
+            android:text="Sell on\nStubhub"
+            android:textSize="22dp" />
     </LinearLayout>
 
 </ScrollView>

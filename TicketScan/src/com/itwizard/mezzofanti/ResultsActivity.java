@@ -2,7 +2,6 @@ package com.itwizard.mezzofanti;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -115,14 +114,11 @@ public class ResultsActivity  extends Activity
     // the buttons at the bottom side
     private CustomImageButton m_btWiki;		
     private CustomImageButton m_btTranslate;
-    private CustomImageButton m_btGoogle;
-    private CustomImageButton m_btDictionary;  	
-    private CustomImageButton m_btEmail;
+    private CustomImageButton m_btDictionary;
     private CustomImageButton m_btSMS;
     
     // the buttons on the right side
     private CustomImageButton m_btEdit;
-    private CustomImageButton m_btSelect;
     private CustomImageButton m_btZoomIn;
     private CustomImageButton m_btZoomOut;
 
@@ -272,10 +268,8 @@ public class ResultsActivity  extends Activity
 	    m_btZoomIn.setClickable(val);
 	    m_btZoomOut.setClickable(val);
 	    m_btEdit.setClickable(val);
-	    m_btSelect.setClickable(val);
 	    
 	    m_btTranslate.setClickable(val);
-	    m_btGoogle.setClickable(val);
 	    m_btDictionary.setClickable(val);
 	    m_btWiki.setClickable(val);
 	    m_etNonEditableText.setClickable(val);
@@ -367,33 +361,6 @@ public class ResultsActivity  extends Activity
 	        }
 	    });
 	    
-	    // Select Button
-	    m_btSelect = new CustomImageButton(this, R.drawable.magnet_32, "Select", 48, 48);
-	    m_btSelect.setOnClickListener(new View.OnClickListener() 
-	    {	
-			public void onClick(View v) 
-			{
-				Log.v(TAG, "buttonSelect: onClick");
-				// delete the selected words, if any
-				if (m_SelectedWords != null)
-				{
-					for (int i=0; i < m_SelectedWords.length; i++)
-						m_SelectedWords[i].m_bExist = false;
-				}
-				m_sSelectedText = "";
-				
-				m_bSelecting = !m_bSelecting;			
-				m_edtSpannableOCRResult = m_etNonEditableText.getText();
-				m_edtSpannableOCRResult.clearSpans();
-				m_etNonEditableText.invalidate();
-		        Message message = m_LocalMessageHandler.obtainMessage(R.id.resultsactivity_clickSelectText, null);
-			    message.sendToTarget();
-				if (m_LocalMessageHandler.sendEmptyMessageDelayed(R.id.resultsactivity_invalidateView, 500))
-		        	Log.v(TAG, "succesfully posted message");
-				
-			}
-		});
-	    
 	    // ZoomIn Button
 	    m_btZoomIn = new CustomImageButton(this, R.drawable.zoomin48, "ZoomIn", 0, 0);
 	    m_btZoomIn.setOnClickListener(new View.OnClickListener() 
@@ -421,7 +388,6 @@ public class ResultsActivity  extends Activity
 		});
 	
 	    m_btEdit.setLayoutParams(layoutOpt);
-	    m_btSelect.setLayoutParams(layoutOpt);
 	    m_btZoomIn.setLayoutParams(layoutOpt);
 	    m_btZoomOut.setLayoutParams(layoutOpt);
 	    
@@ -431,7 +397,6 @@ public class ResultsActivity  extends Activity
 	
 	    // add buttons to layout
 	    m_llButtonsResultsLayout.addView(m_btEdit);
-	    m_llButtonsResultsLayout.addView(m_btSelect);
 	    m_llButtonsResultsLayout.addView(fl);
 	    m_llButtonsResultsLayout.addView(m_btZoomIn);
 	    m_llButtonsResultsLayout.addView(m_btZoomOut);
@@ -672,22 +637,6 @@ public class ResultsActivity  extends Activity
 		});
 	    m_btTranslate.setLayoutParams(params);	    
 	    m_llWordResultsLayout.addView(m_btTranslate);
-	
-		// email button
-	    m_btEmail = new CustomImageButton(this, R.drawable.email3_48, "e-mail", 0, 0);
-	    m_btEmail.SetMargins(offset, 0);
-	    m_btEmail.setOnClickListener(new View.OnClickListener() 
-	    {
-			public void onClick(View v) 
-			{
-        	    Intent intent2 = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"));
-        	    intent2.putExtra("subject", "[Mezzofanti]");
-        	    intent2.putExtra("body", m_etNonEditableText.getText().toString());
-        	    startActivity(intent2);
-			}
-		});
-	    m_btEmail.setLayoutParams(params);
-	    m_llWordResultsLayout.addView(m_btEmail);
 
 		// sms button
 	    m_btSMS = new CustomImageButton(this, R.drawable.htc_48, "sms", 0, 0);
@@ -704,21 +653,6 @@ public class ResultsActivity  extends Activity
 		});
 	    m_btSMS.setLayoutParams(params);
 	    m_llWordResultsLayout.addView(m_btSMS);
-
-	    // google button
-	    m_btGoogle = new CustomImageButton(this, R.drawable.google1_48, "Google", 0, 0);
-	    m_btGoogle.SetMargins(offset, 0);
-	    m_btGoogle.setOnClickListener(new View.OnClickListener() 
-	    {
-			public void onClick(View v) 
-			{
-        		Intent intent = new Intent(Intent.ACTION_WEB_SEARCH );
-        		intent.putExtra(SearchManager.QUERY, m_sSelectedText);
-        		startActivity(intent);								
-			}
-		});
-	    m_btGoogle.setLayoutParams(params);
-	    m_llWordResultsLayout.addView(m_btGoogle);
 	
 	    // Dictionary button
 	    m_btDictionary = new CustomImageButton(this, R.drawable.dictionary48, "Dictionary", 0, 0);
@@ -796,11 +730,6 @@ public class ResultsActivity  extends Activity
 		else
 			m_btDictionary.setVisibility(View.GONE);
 		
-		if (showGoogle)
-			m_btGoogle.setVisibility(View.VISIBLE);
-		else
-			m_btGoogle.setVisibility(View.GONE);
-		
 		if (showTranslate)
 			m_btTranslate.setVisibility(View.VISIBLE);
 		else
@@ -820,11 +749,6 @@ public class ResultsActivity  extends Activity
 	 */
 	private void ShowEmailSmsButtons(boolean showEmail, boolean showSMS)
 	{
-		if (showEmail)
-			m_btEmail.setVisibility(View.VISIBLE);
-		else
-			m_btEmail.setVisibility(View.GONE);
-		
 		if (showSMS)
 			m_btSMS.setVisibility(View.VISIBLE);
 		else
@@ -887,6 +811,7 @@ public class ResultsActivity  extends Activity
     /**
      * Show a prompt dialog to add an word to the dictionary.
      */
+	@SuppressWarnings("static-access")
 	private void ShowDialogAddWordToDictionary()
 	{
 		if ( OCR.get().IsValidComposedWord(m_sSelectedText.toLowerCase()) )
