@@ -91,7 +91,7 @@ public class ScanTicketActivity extends Activity {
 		sp.edit().putInt("launch", launchTimes).commit();
 
 		setContentView(R.layout.scan_ticket);
-		
+
 		TextView textView = (TextView) findViewById(R.id.TextTitle);
 		textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
 
