@@ -45,7 +45,7 @@ This may happen for one of the following reasons: \n
 	
     <string name="mezzofanti_capturemode_statustext_switchtosmall">Normal mode</string>
     <string name="mezzofanti_capturemode_statustext_switchtolarge">Fullscreen mode</string>
-    <string name="mezzofanti_capturemode_statustext_switchtolarge2">delete-last / go-to-results</string>	
+    <string name="mezzofanti_capturemode_statustext_switchtolarge2">delete-last / results</string>	
  
 
 
