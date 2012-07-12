@@ -51,12 +51,13 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View.OnTouchListener;
+
+import com.stubhub.spellcheck.SpellChecker;
+import com.stubhub.spellcheck.SpellResponse;
 import com.stubhub.ticketscan.R;
-import com.stubhub.ticketscan.ScanTicketActivity;
 
 public class Mezzofanti extends Activity implements SurfaceHolder.Callback,
 		View.OnTouchListener, View.OnClickListener, Runnable {
@@ -191,7 +192,7 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback,
 			final ImageButton bt = (ImageButton) findViewById(R.id.mezzofanti_button_camerabutton);
 			bt.setBackgroundResource(R.drawable.camera_64);
 			bt.setOnTouchListener(new OnTouchListener() {
-				
+
 				public boolean onTouch(View arg0, MotionEvent event) {
 					if (event.getAction() == MotionEvent.ACTION_DOWN) {
 						bt.setBackgroundResource(R.drawable.camera_64_clicked);
@@ -351,14 +352,12 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback,
 
 	public boolean onTouch(View v, MotionEvent event) {
 
-		View view = v;
 		Log.e(TAG, "MezzofantiOnTouch");
 		// Dump touch event to log
 		GetScreenSize();
 		// Handle touch events here...
 		// The Icons field which are used for operating
-		if (Width(event) > ScreenWidth * 0.86
-				|| Heigth(event) > ScreenLength * 0.85
+		if (Width(event) > ScreenWidth * 0.86				|| Heigth(event) > ScreenLength * 0.85
 				|| Heigth(event) < ScreenLength * 0.2) {
 
 			return false;
@@ -437,17 +436,6 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback,
 			return true; // indicate event was handled
 		}
 
-	}
-
-	/** Determine the space between the first two fingers */
-	private float spacing(MotionEvent event) {
-		float x = event.getX(0) - event.getX(1);
-		Log.e("Position", "X0" + event.getX(0));
-		Log.e("Position", "X1" + event.getX(1));
-		Log.e("Width1122", "width" + x);
-		float y = event.getY(0) - event.getY(1);
-		Log.e("Length2233", "Length" + y);
-		return FloatMath.sqrt(x * x + y * y);
 	}
 
 	private float CaptureScreenLength(MotionEvent event) {
@@ -968,7 +956,7 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback,
 									+ mBitmap.getHeight());
 
 					if (m_bLineMode) { // we crop just the image of interest
-						// XXX need use relative values
+						// need use relative values
 						// mBitmap = Bitmap.createBitmap(mBitmap, 256, 768/2-30,
 						// 512, 60, null, false);
 						Rect frame = CameraManager.get().GetCaptureRect(
@@ -986,8 +974,7 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback,
 								mBitmap.compress(Bitmap.CompressFormat.JPEG,
 										90, bytes);
 
-								File f = new File(DATA_PATH
-										+ "frame_img.jpg");
+								File f = new File(DATA_PATH + "frame_img.jpg");
 								f.createNewFile();
 								// write the bytes in file
 								FileOutputStream fo = new FileOutputStream(f);
@@ -1114,7 +1101,7 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback,
 
 		}
 
-		// XXX return scan result
+		// return scan result
 		// if (m_sOCRResultLineMode == null || m_sOCRResultLineMode.length() ==
 		// 0){
 		// return;
@@ -1122,11 +1109,26 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback,
 
 		Intent data = new Intent();
 		Bundle bundle = new Bundle();
-		bundle.putString("content", m_sOCRResultLineMode);
+		String correctString = spellCheck(m_sOCRResultLineMode);
+		bundle.putString("content", correctString);
 		bundle.putBoolean("bLineMode", m_bLineMode);
 		data.putExtras(bundle);
 		setResult(Activity.RESULT_OK, data);
 		finish();
+	}
+
+	private String spellCheck(String s) {
+		SpellChecker checker = new SpellChecker();
+		SpellResponse spellResponse = checker.check(s);
+		String result = "";
+		for (int i = 0; i != spellResponse.getCorrections().length; i++) {
+			if (i != spellResponse.getCorrections().length - 1) {
+				result += spellResponse.getCorrections()[i].getWords()[0] + " ";
+			}else{
+				result += spellResponse.getCorrections()[i].getWords()[0];
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -1261,26 +1263,19 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback,
 				if (m_bSdcardMounted == false)
 					return;
 
-				String val = "";
 				if ((orientation >= 0 && orientation <= 10)
 						|| (orientation >= 350 && orientation <= 360)) {
-					val = getString(R.string.mezzofanti_status_bar_vertical)
-							+ " (" + orientation + ")";
 					if (m_bHorizontalDisplay) {
 						m_bHorizontalDisplay = false;
 					}
 
 				} else {
 					if (orientation >= 260 && orientation <= 280) {
-						val = getString(R.string.mezzofanti_status_bar_horizontal)
-								+ " (" + orientation + ")";
 						if (!m_bHorizontalDisplay) {
 							m_bHorizontalDisplay = true;
 						}
 					} else if (orientation == -1) {
-						val = getString(R.string.mezzofanti_status_bar_updown);
 					} else {
-						val = "" + orientation;
 					}
 				}
 			} // end public void onOrientationChanged (int orientation)
@@ -1370,7 +1365,7 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback,
 		// create the status bar buttons
 		m_btSwitch = (ImageButton) findViewById(R.id.mezzofanti_button_switch);
 		m_btSwitch.setBackgroundResource(R.drawable.switch_32);
-		
+
 		m_btDelOne = (ImageButton) findViewById(R.id.mezzofanti_button_delone);
 		m_btGotoResults = (ImageButton) findViewById(R.id.mezzofanti_button_gotoresults);
 
