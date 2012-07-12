@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>-NOTICE-</key>
+	<string>THIS FILE IS DIGITALLY SIGNED. DO NOT MODIFY.</string>
+	<key>Company Name</key>
+	<string>Skunkworks</string>
+	
+	<key>Android</key>
+	<dict>
+		<key>Root Class Names</key>
+		<array>
+			<string>com.stubhub.ticketscan</string>
+		</array>
+	</dict>
+</dict>
+</plist>
+-----BEGIN SIGNATURE-----
+a9NUw1xIbEZA88O2TOWEthFBucJvT/OcsfLFfWXdDad7SofaKZnZJQh9VzlMTU/T
+m6mW84LkODE2n8/DHOnmPCUN9inP1aYyWaPFH/3hYHZifspcO8In29CTvFAIh0gt
+cZLuf50leA+ZERQcgXYabiW/RGdGDMBSiFUxWg9Sd0gdKh/cdpcWygEffyjqTi6E
+Bmi+gmBeODWqJpgzy2qosB/nBoy1/UybU+9DLp5hW1NGLSApdwMIDENcuWlGQ3Vm
+MGlaDbUEyxZF2qKQG6cztg1lGdoqw1PKo+ftN8/tGlb5Z/Fz51/utNCgkVS+NU7h
+TT7v7QWtFj3GyNJAr13mCiWDBxfEmYeKMqdq6Nt7frS60tMgkXA96Vx7CMJPr/bu
+GNbNwpysYPLWhy1Iy0Bqr+KSmMLcekHd63zdW2bqM7tiN2AbsGkbTklY1Y3R6r0R
+u/RP637iGdAFHJBC093vLvkI6JOyjk1WR6kfoTwfbIoR0bTvLtdXiJgzVdnua5cv
+/Xu+AY892seIs5w4vN+xZWu7nKtUicxyeKwlRmhw55uXVCenq1tFJn2Y0l1U8phG
+5F/+0dqLjnJMFW/+wFIpzEuhVIYkgiim1oOB+++BrrUx3fiw7suTAk3f8d1iZe7r
+1mjq426MmuHV+/8LS4mpz9KbHjKpDl7iPOF+zY2HFXw=
+-----END SIGNATURE-----
