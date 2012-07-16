@@ -21,6 +21,8 @@ import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
@@ -28,7 +30,6 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,14 +37,22 @@ import com.ebay.redlasersdk.BarcodeResult;
 import com.itwizard.mezzofanti.CameraManager;
 import com.itwizard.mezzofanti.Mezzofanti;
 import com.stubhub.entities.MobileListing;
+import com.stubhub.spellcheck.SpellChecker;
+import com.stubhub.spellcheck.SpellResponse;
 
 public class ScanTicketActivity extends Activity {
 
 	private static final int REQUEST_CODE_SCAN_BARCODE = 1234;
-
 	private static final String TAG = "ScanTicketActivity";
-
 	private String eventId;
+	private Thread retrieveSpellCheckResultThread ;
+
+	private Handler getSpellCheckResultHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -334,7 +343,7 @@ public class ScanTicketActivity extends Activity {
 		}
 	}
 
-	// TODO let user customize?
+	// let user customize?
 	private boolean doUpce = true;
 	private boolean doEan8 = true;
 	private boolean doEan13 = true;
@@ -348,7 +357,8 @@ public class ScanTicketActivity extends Activity {
 	private boolean doITF = true;
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	protected void onActivityResult(int requestCode, int resultCode,
+			final Intent data) {
 
 		// set default value
 		com.itwizard.mezzofanti.CameraManager.get().resetScanSize();
@@ -369,13 +379,38 @@ public class ScanTicketActivity extends Activity {
 
 			} else {
 
-				TextView textView = (TextView) findViewById(requestCode);
+				final TextView textView = (TextView) findViewById(requestCode);
 				textView.setText(data.getExtras().getString("content"));
 
+				// XXX Asynchronous Invoke from Google Spell Check
+
+				retrieveSpellCheckResultThread = new Thread(new Runnable() {
+					
+					public void run() {
+						String result = spellCheck(data.getExtras().getString("content"));
+						textView.setText(result);
+						getSpellCheckResultHandler.removeCallbacks(retrieveSpellCheckResultThread);
+					}
+				});
+				getSpellCheckResultHandler.post(retrieveSpellCheckResultThread);
 			}
 
 		}
 
+	}
+
+	private String spellCheck(String s) {
+		SpellChecker checker = new SpellChecker();
+		SpellResponse spellResponse = checker.check(s);
+		String result = "";
+		for (int i = 0; i != spellResponse.getCorrections().length; i++) {
+			if (i != spellResponse.getCorrections().length - 1) {
+				result += spellResponse.getCorrections()[i].getWords()[0] + " ";
+			} else {
+				result += spellResponse.getCorrections()[i].getWords()[0];
+			}
+		}
+		return result;
 	}
 
 	private String addListing() {
@@ -399,7 +434,7 @@ public class ScanTicketActivity extends Activity {
 			String eventName = ((EditText) findViewById(R.id.text_Event_name))
 					.getText().toString();
 
-			// TODO from event name
+			// from event name
 			// http://www.stubhub.com/san-francisco-giants-tickets/giants-vs-diamondbacks-5-29-2012-2031178/
 			eventId = "2031178";
 
@@ -428,7 +463,7 @@ public class ScanTicketActivity extends Activity {
 							.getText().toString());
 			sellerListing.setDisclosuresList(disclosures);
 
-			// TODO EventInfo.getDeliveryOptions.getName
+			// EventInfo.getDeliveryOptions.getName
 			sellerListing.setDeliveryMethod("PDF");
 
 			sellerListing.setIsInHand(true);
