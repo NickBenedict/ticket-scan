@@ -55,7 +55,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View.OnTouchListener;
 
+import com.stubhub.Constants;
 import com.stubhub.ticketscan.R;
+import com.stubhub.ticketscan.ScanTicketActivity;
 
 public class Mezzofanti extends Activity implements SurfaceHolder.Callback,
 		View.OnTouchListener, View.OnClickListener, Runnable {
@@ -169,6 +171,8 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback,
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		String value = getIntent().getExtras().getString(Constants.CURRENT_SECTION);
 
 		try {
 			Log.v(TAG, "Starting app");
@@ -187,6 +191,10 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback,
 
 			// set the layout to the xml definition
 			setContentView(R.layout.main);
+			
+			TextView currentSectionTextView = (TextView)findViewById(R.id.mezzofanti_current_section);
+			currentSectionTextView.setText(value);
+			
 			final ImageButton bt = (ImageButton) findViewById(R.id.mezzofanti_button_camerabutton);
 			bt.setBackgroundResource(R.drawable.camera_64);
 			bt.setOnTouchListener(new OnTouchListener() {

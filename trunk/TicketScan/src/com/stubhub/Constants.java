@@ -10,6 +10,14 @@ public class Constants {
 	
 	public static final String FACEBOOK_APP_ID = "109259765770403";
 	
+	public static final String CURRENT_SECTION = "current_section";
+	public static final String EVENT_NAME = "Event Name";
+	public static final String SECTION = "Section";
+	public static final String ROW = "Row";
+	public static final String SEAT = "Seat";
+	public static final String TICKET_PRICE = "Ticket Price";
+	public static final String TRAIT_DISCLOSURE = "Trait/Disclosure";
+	
 	public static final int MYACCOUNT_READ_TIMEOUT = 60000;
 	public static final int MYACCOUNT_CONNECT_TIMEOUT = 60000;
 	public static final int AUTO_SUGGEST_READ_TIMEOUT = 60000;
