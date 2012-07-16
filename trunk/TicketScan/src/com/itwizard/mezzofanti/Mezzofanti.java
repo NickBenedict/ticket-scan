@@ -55,8 +55,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View.OnTouchListener;
 
-import com.stubhub.spellcheck.SpellChecker;
-import com.stubhub.spellcheck.SpellResponse;
 import com.stubhub.ticketscan.R;
 
 public class Mezzofanti extends Activity implements SurfaceHolder.Callback,
@@ -1109,26 +1107,11 @@ public class Mezzofanti extends Activity implements SurfaceHolder.Callback,
 
 		Intent data = new Intent();
 		Bundle bundle = new Bundle();
-		String correctString = spellCheck(m_sOCRResultLineMode);
-		bundle.putString("content", correctString);
+		bundle.putString("content", m_sOCRResultLineMode);
 		bundle.putBoolean("bLineMode", m_bLineMode);
 		data.putExtras(bundle);
 		setResult(Activity.RESULT_OK, data);
 		finish();
-	}
-
-	private String spellCheck(String s) {
-		SpellChecker checker = new SpellChecker();
-		SpellResponse spellResponse = checker.check(s);
-		String result = "";
-		for (int i = 0; i != spellResponse.getCorrections().length; i++) {
-			if (i != spellResponse.getCorrections().length - 1) {
-				result += spellResponse.getCorrections()[i].getWords()[0] + " ";
-			}else{
-				result += spellResponse.getCorrections()[i].getWords()[0];
-			}
-		}
-		return result;
 	}
 
 	/**
