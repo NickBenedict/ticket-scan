@@ -36,6 +36,7 @@ import android.widget.Toast;
 import com.ebay.redlasersdk.BarcodeResult;
 import com.itwizard.mezzofanti.CameraManager;
 import com.itwizard.mezzofanti.Mezzofanti;
+import com.stubhub.Constants;
 import com.stubhub.entities.MobileListing;
 import com.stubhub.spellcheck.SpellChecker;
 import com.stubhub.spellcheck.SpellResponse;
@@ -45,7 +46,7 @@ public class ScanTicketActivity extends Activity {
 	private static final int REQUEST_CODE_SCAN_BARCODE = 1234;
 	private static final String TAG = "ScanTicketActivity";
 	private String eventId;
-	private Thread retrieveSpellCheckResultThread ;
+	private Thread retrieveSpellCheckResultThread;
 
 	private Handler getSpellCheckResultHandler = new Handler() {
 		@Override
@@ -166,6 +167,7 @@ public class ScanTicketActivity extends Activity {
 
 						Intent scanIntent = new Intent(ScanTicketActivity.this,
 								Mezzofanti.class);
+						scanIntent.putExtra(Constants.CURRENT_SECTION, Constants.EVENT_NAME);
 						// just use the id of the text view as request id
 						startActivityForResult(scanIntent, R.id.text_Event_name);
 					} catch (Exception e) {
@@ -185,6 +187,7 @@ public class ScanTicketActivity extends Activity {
 								.setScanWidthRatio(0.2f);
 						Intent scanIntent = new Intent(ScanTicketActivity.this,
 								Mezzofanti.class);
+						scanIntent.putExtra(Constants.CURRENT_SECTION, Constants.SECTION);
 						// just use the id of the text view as request id
 						startActivityForResult(scanIntent,
 								R.id.text_scan_Section);
@@ -204,6 +207,7 @@ public class ScanTicketActivity extends Activity {
 								.setScanWidthRatio(0.06f);
 						Intent scanIntent = new Intent(ScanTicketActivity.this,
 								Mezzofanti.class);
+						scanIntent.putExtra(Constants.CURRENT_SECTION, Constants.ROW);
 						// just use the id of the text view as request id
 						startActivityForResult(scanIntent, R.id.text_Row);
 					} catch (Exception e) {
@@ -222,6 +226,7 @@ public class ScanTicketActivity extends Activity {
 								.setScanWidthRatio(0.06f);
 						Intent scanIntent = new Intent(ScanTicketActivity.this,
 								Mezzofanti.class);
+						scanIntent.putExtra(Constants.CURRENT_SECTION, Constants.SEAT);
 						// just use the id of the text view as request id
 						startActivityForResult(scanIntent, R.id.text_scan_Seat);
 					} catch (Exception e) {
@@ -240,6 +245,7 @@ public class ScanTicketActivity extends Activity {
 								.setScanWidthRatio(0.1f);
 						Intent scanIntent = new Intent(ScanTicketActivity.this,
 								Mezzofanti.class);
+						scanIntent.putExtra(Constants.CURRENT_SECTION, Constants.TICKET_PRICE);
 						// just use the id of the text view as request id
 						startActivityForResult(scanIntent,
 								R.id.text_Ticket_price_Value);
@@ -261,6 +267,7 @@ public class ScanTicketActivity extends Activity {
 								.setScanHeightRatio(0.12f);
 						Intent scanIntent = new Intent(ScanTicketActivity.this,
 								Mezzofanti.class);
+						scanIntent.putExtra(Constants.CURRENT_SECTION, Constants.TRAIT_DISCLOSURE);
 						// just use the id of the text view as request id
 						startActivityForResult(scanIntent,
 								R.id.text_Trait_Discosure);
@@ -382,14 +389,18 @@ public class ScanTicketActivity extends Activity {
 				final TextView textView = (TextView) findViewById(requestCode);
 				textView.setText(data.getExtras().getString("content"));
 
-				// XXX Asynchronous Invoke from Google Spell Check
+				// Asynchronous Invoke from Google Spell Check
 
 				retrieveSpellCheckResultThread = new Thread(new Runnable() {
-					
+
 					public void run() {
-						String result = spellCheck(data.getExtras().getString("content"));
-						textView.setText(result);
-						getSpellCheckResultHandler.removeCallbacks(retrieveSpellCheckResultThread);
+						String result = spellCheck(data.getExtras().getString(
+								"content"));
+						if (!result.equals("")) {
+							textView.setText(result);
+						}
+						getSpellCheckResultHandler
+								.removeCallbacks(retrieveSpellCheckResultThread);
 					}
 				});
 				getSpellCheckResultHandler.post(retrieveSpellCheckResultThread);
