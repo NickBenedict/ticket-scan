@@ -387,16 +387,16 @@ public class ScanTicketActivity extends Activity {
 			} else {
 
 				final TextView textView = (TextView) findViewById(requestCode);
-				textView.setText(data.getExtras().getString("content"));
+				final String text = data.getExtras().getString("content");
+				textView.setText(text);
 
 				// Asynchronous Invoke from Google Spell Check
 
 				retrieveSpellCheckResultThread = new Thread(new Runnable() {
 
 					public void run() {
-						String result = spellCheck(data.getExtras().getString(
-								"content"));
-						if (!result.equals("")) {
+						String result = spellCheck(text);
+ 						if (!result.equals("")) {
 							textView.setText(result);
 						}
 						getSpellCheckResultHandler
