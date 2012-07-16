@@ -27,6 +27,17 @@
             android:layout_alignParentTop="true"
             android:layout_marginRight="13dip"
             android:layout_marginTop="13dip" />
+
+        <TextView
+            android:id="@+id/mezzofanti_current_section"
+            android:layout_width="180dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="13dip"
+            android:textSize="18dp"
+            android:gravity="center"
+            android:textColor="#FFFFFF" 
+            android:background="@drawable/section_bk"/>
     </RelativeLayout>
 
     <!-- View finder for drawing camera rectangle and laser beam on focus -->
